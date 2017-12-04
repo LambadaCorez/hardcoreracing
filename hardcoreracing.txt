@@ -1,0 +1,9 @@
+"hardcoreracing"
+{
+    "base"      "base"
+    "title"     "Race"
+    "maps"      "^race_"
+    "menusystem"    "1"
+
+
+}
