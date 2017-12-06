@@ -1,0 +1,18 @@
+racecarspawns = {}
+
+racecarspawns[0] = Vector(-750.285706, 13118.601563, 5.031250)
+racecarspawns[1] = Vector(-250.285706, 13118.601563, 5.031250)
+racecarspawns[2] = Vector(250.285706, 13118.601563, 5.031250)
+racecarspawns[3] = Vector(750.285706, 13118.601563, 5.031250)
+racecarspawns[4] = Vector(-500.285706, 12734.601563, 5.031250)
+racecarspawns[5] = Vector(0.285706, 12734.601563, 5.031250)
+racecarspawns[6] = Vector(500.285706, 12734.601563, 5.031250)
+racecarspawns[7] = Vector(1000.285706, 12734.601563, 5.031250)
+racecarspawns[8] = Vector(1500.285706, 12734.601563, 5.031250)
+racecarspawns[9] = Vector(2000.285706, 12734.601563, 5.031250)
+racecarspawns[10] = Vector(2500.285706, 12734.601563, 5.031250)
+racecarspawns[11] = Vector(3000.285706, 12734.601563, 5.031250)
+racecarspawns[12] = Vector(1250.285706, 13118.601563, 5.031250)
+racecarspawns[13] = Vector(1750.285706, 13118.601563, 5.031250)
+racecarspawns[14] = Vector(2250.285706, 13118.601563, 5.031250)
+racecarspawns[15] = Vector(2750.285706, 13118.601563, 5.031250)

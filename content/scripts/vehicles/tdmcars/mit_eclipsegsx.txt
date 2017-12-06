@@ -1,4 +1,4 @@
-// mit_eclipsegsx, created by TDM in 11/22/14 15:52:13, using Vehicle Controller (VCMod).
+// gtr, created by TDM in 04/23/14 13:12:55, using Vehicle Controller (VCMod).
 
 "Vehicle"
 {
@@ -6,21 +6,21 @@
 	"Body"
 	{
 		"CounterTorqueFactor"	"0.9"
-		"MassCenterOverride"	"0 -5 0"
-		"MassOverride"			"1450"
-		"AddGravity"			"1"
+		"MassCenterOverride"	"0 -7 1"
+		"MassOverride"			"1736"
+		"AddGravity"			"0.6"
 		"MaxAngularVelocity"	"720"
 	}
 	"Engine"
 	{
-		"HorsePower"			"210"
-		"MaxRPM"				"4200"
-		"MaxSpeed"				"95"
-		"MaxReverseSpeed"		"25"
+		"HorsePower"			"400"
+		"MaxRPM"				"3900"
+		"MaxSpeed"				"112"
+		"MaxReverseSpeed"		"27"
 		"AutobrakeSpeedGain"	"0"
 		"AutobrakeSpeedFactor"	"0"
 		"Autotransmission"		"0"
-		"AxleRatio"				"6.5"
+		"AxleRatio"				"5"
 		"Gear"					"3.2"
 		"Gear"					"2.4"
 		"Gear"					"1.5"
@@ -33,24 +33,24 @@
 	"Steering"
 	{
 		"DegreesSlow"						"40"
-		"DegreesFast"						"9"
+		"DegreesFast"						"8"
 		"DegreesBoost"						"11"
-		"FastDampen"						"90"
+		"FastDampen"						"60"
 		"SteeringExponent"					"0"
-		"SlowCarSpeed"						"2"
+		"SlowCarSpeed"						"4"
 		"FastCarSpeed"						"45"
-		"SlowSteeringRate"					"2.5"
+		"SlowSteeringRate"					"2.7"
 		"FastSteeringRate"					"1.8"
-		"SteeringRestRateSlow"				"2.5"
+		"SteeringRestRateSlow"				"2.7"
 		"SteeringRestRateFast"				"1.8"
 		"TurnThrottleReduceSlow"			"0.01"
 		"TurnThrottleReduceFast"			"0.6"
-		"BrakeSteeringRateFactor"			"2.2"
+		"BrakeSteeringRateFactor"			"2.7"
 		"ThrottleSteeringRestRateFactor"	"1.8"
 		"BoostSteeringRestRateFactor"		"1.7"
 		"BoostSteeringRateFactor"			"1.7"
 
-		"PowerSlideAccel"					"190"
+		"PowerSlideAccel"					"180"
 
 		"SkidAllowed"						"1"
 		"DustCloud"							"1"
@@ -59,10 +59,10 @@
 	{
 		"Wheel"
 		{
-			"Radius"						"16"
-			"Mass"							"150"
-			"Inertia"						"1.9"
-			"Damping"						"0.4"
+			"Radius"						"16.5"
+			"Mass"							"200"
+			"Inertia"						"1.1"
+			"Damping"						"0"
 			"RotDamping"					"0"
 			"Material"						"phx_rubbertire2"
 			"SkidMaterial"					"slidingrubbertire"
@@ -70,38 +70,38 @@
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"75"
-			"SpringDamping"					"1"
+			"SpringConstant"				"50"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
-			"SpringDampingCompression"		"6.5"
-			"MaxBodyForce"					"25"
+			"SpringDampingCompression"		"7"
+			"MaxBodyForce"					"30"
 		}
-		"TorqueFactor"						"0.5"
-		"BrakeFactor"						"0.4"
+		"TorqueFactor"						"0.4"
+		"BrakeFactor"						"0.5"
 	}
 	"Axle"
 	{
 		"Wheel"
 		{
-			"Radius"						"16"
-			"Mass"							"160"
-			"Inertia"						"1.9"
-			"Damping"						"0.6"
-			"RotDamping"					"0.4"
+			"Radius"						"16.5"
+			"Mass"							"200"
+			"Inertia"						"1.1"
+			"Damping"						"0.36"
+			"RotDamping"					"0.9"
 			"Material"						"phx_rubbertire2"
 			"SkidMaterial"					"slidingrubbertire"
 			"BrakeMaterial"					"brakingrubbertire"
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"90"
-			"SpringDamping"					"1"
+			"SpringConstant"				"60"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
-			"SpringDampingCompression"		"6.5"
-			"MaxBodyForce"					"28"
+			"SpringDampingCompression"		"7"
+			"MaxBodyForce"					"35"
 		}
-		"TorqueFactor"						"0.5"
-		"BrakeFactor"						"0.6"
+		"TorqueFactor"						"0.4"
+		"BrakeFactor"						"0.5"
 	}
 }
 
@@ -114,17 +114,17 @@
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.36"
+		"Max_Speed"				"0.23"
 		"Speed_Approach_Factor"	"0.08"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.47"
+		"Max_Speed"				"0.32"
 		"Speed_Approach_Factor"	"0.05"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.58"
+		"Max_Speed"				"0.42"
 		"Speed_Approach_Factor"	"0.035"
 	}
 	"Gear"
@@ -141,7 +141,7 @@
 	"State"
 	{
 		"Name"		"SS_GEAR_2_RESUME"
-		"Sound"		"vehicles\tdmcars\mitsuevox\third.wav"
+		"Sound"		"vehicles\tdmcars\gtr\third.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
@@ -153,43 +153,43 @@
 	"State"
 	{
 		"Name"		"SS_GEAR_3_RESUME"
-		"Sound"		"vehicles\tdmcars\mitsuevox\fourth_cruise.wav"
+		"Sound"		"vehicles\tdmcars\gtr\fourth_cruise.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_REVERSE"
-		"Sound"		"vehicles\tdmcars\mitsuevox\rev.wav"
+		"Sound"		"vehicles\tdmcars\gtr\rev.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_IDLE"
-		"Sound"		"vehicles\tdmcars\mitsuevox\idle.wav"
+		"Sound"		"vehicles\tdmcars\gtr\idle.wav"
 		"Min_Time"	"0"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_1_RESUME"
-		"Sound"		"vehicles\tdmcars\mitsuevox\first.wav"
+		"Sound"		"vehicles\tdmcars\gtr\first.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_4"
-		"Sound"		"vehicles\tdmcars\mitsuevox\fourth_cruise.wav"
+		"Sound"		"vehicles\tdmcars\gtr\fourth_cruise.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_1"
-		"Sound"		"vehicles\tdmcars\mitsuevox\first.wav"
+		"Sound"		"vehicles\tdmcars\gtr\first.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_SLOWDOWN_HIGHSPEED"
-		"Sound"		"vehicles\tdmcars\mitsuevox\throttle_off.wav"
+		"Sound"		"vehicles\tdmcars\gtr\throttle_off.wav"
 		"Min_Time"	"0"
 	}
 	"State"
@@ -201,43 +201,43 @@
 	"State"
 	{
 		"Name"		"SS_START_IDLE"
-		"Sound"		"vehicles\tdmcars\mitsuevox\enginestart.mp3"
-		"Min_Time"	"3"
+		"Sound"		"vehicles\tdmcars\gtr\enginestart.mp3"
+		"Min_Time"	"3.5"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_4_RESUME"
-		"Sound"		"vehicles\tdmcars\mitsuevox\fourth_cruise.wav"
+		"Sound"		"vehicles\tdmcars\gtr\fourth_cruise.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_3"
-		"Sound"		"vehicles\tdmcars\mitsuevox\third.wav"
+		"Sound"		"vehicles\tdmcars\gtr\third.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_0_RESUME"
-		"Sound"		"vehicles\tdmcars\mitsuevox\first.wav"
+		"Sound"		"vehicles\tdmcars\gtr\first.wav"
 		"Min_Time"	"0.75"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_0"
-		"Sound"		"vehicles\tdmcars\mitsuevox\idle.wav"
+		"Sound"		"vehicles\tdmcars\gtr\idle.wav"
 		"Min_Time"	"0.08"
 	}
 	"State"
 	{
 		"Name"		"SS_GEAR_2"
-		"Sound"		"vehicles\tdmcars\mitsuevox\second.wav"
+		"Sound"		"vehicles\tdmcars\gtr\second.wav"
 		"Min_Time"	"0.5"
 	}
 	"State"
 	{
 		"Name"		"SS_SLOWDOWN"
-		"Sound"		"vehicles\tdmcars\mitsuevox\idle.wav"
+		"Sound"		"vehicles\tdmcars\gtr\idle.wav"
 		"Min_Time"	"0"
 	}
 	"CrashSound"

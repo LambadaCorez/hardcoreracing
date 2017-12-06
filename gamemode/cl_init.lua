@@ -1,52 +1,14 @@
 --RACE CL_INIT
 
-resource.AddFile("resource/fonts/titilliumweb-light.ttf")
-resource.AddFile("resource/fonts/titilliumweb-regular.ttf")
-
-
 include("shared.lua")
 include("logo.lua")
 include("cl_music.lua")
+include("customizationmenu.lua")
 
 
 local screenx = ScrW()/2
 
 local screeny = ScrH()/2
-
-
-
-timer.Create("lapReset",.2,0,function()
-	
-	if laps == nil then
-		laps = 1
-		lapBool = false
-	end
-	if !raceactive then
-		laps = 1
-		lapBool = false
-	end
-	
-
-end)
-
-
-
-timer.Create("lapsSend",.2,0,function()
-if laps >= 2 then
-	net.Start("lapBool")
-	net.WriteBool(lapBool)
-	net.SendToServer()
-	net.Start("lapsclient")
-	net.WriteInt(laps,32)
-	net.SendToServer()
-	if laps == 3 then
-	laps = 1
-	lapBool = false
-	end
-	end
-	
-
-end)
 
 net.Receive( "laps", function( len, pl )
 	laps = net.ReadInt(32)
@@ -66,9 +28,11 @@ net.Receive( "10secondBool", function( len )
 	end)
 	
 net.Receive( "10secondInt", function( len )
+
 	seconds = net.ReadInt(32)
 	
 	end)
+	
 surface.CreateFont( "HoveringFont", {
   font="Titillium Web",
   size= 15,
@@ -76,13 +40,6 @@ surface.CreateFont( "HoveringFont", {
   outline=true,
 
 } )
-
-surface.CreateFont("", {
-        size = 23,
-        weight = 400,
-        antialias = true,
-        shadow = false,
-        font = "Coolvetica"})
 		
 surface.CreateFont("RacingHUD", {
         size = 100,
@@ -91,14 +48,14 @@ surface.CreateFont("RacingHUD", {
         shadow = true,
         font = "Roboto Light"})
 		
-		surface.CreateFont("RacingHUDV2", {
+surface.CreateFont("RacingHUDV2", {
         size = 100,
         weight = 0,
         antialias = true,
         shadow = true,
         font = "Roboto Medium"})
 
-	surface.CreateFont("RacingHUDSmall", {
+surface.CreateFont("RacingHUDSmall", {
        size = 20,
        weight = 0,
        antialias = true,
@@ -106,7 +63,7 @@ surface.CreateFont("RacingHUD", {
 	   italic = true,
        font = "Roboto Medium"})
 	   
-	   	surface.CreateFont("RacingHUDBold", {
+surface.CreateFont("RacingHUDBold", {
        size = 100,
        weight = 0,
        antialias = true,
@@ -115,10 +72,10 @@ surface.CreateFont("RacingHUD", {
 	   outline = true,
        font = "Roboto Black"})
 
-	   hook.Add( "Think", "includeMusic", musicLogic)
-	   
+hook.Add( "Think", "includeMusic", musicLogic)
+	
 function hoveringNames()
-
+ local ply = LocalPlayer()
 	for id,target in pairs(ents.FindByClass("Player")) do
 		
 		if target:Alive() then
@@ -142,12 +99,9 @@ function hoveringNames()
 
 end
 
-
-
-
-
 hook.Add( "HUDPaint", "DrawNames", function()
  
+ local ply = LocalPlayer()
  local car = ply:GetVehicle()
 	
 	if IsValid(car) then
@@ -155,6 +109,7 @@ hook.Add( "HUDPaint", "DrawNames", function()
 	local vehicleclass = car:GetClass()
 	
 if  ply:InVehicle() and vehicleclass != "prop_vehicle_airboat" then
+	
 	draw.SimpleText("CHECKPOINTS:", "RacingHUDSmall", ScrW()-150, ScrH()-125, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	draw.SimpleText(laps, "RacingHUDV2", ScrW()-90, ScrH()-130, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	draw.SimpleText("/", "RacingHUD", ScrW()-60, ScrH()-110, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
@@ -167,7 +122,7 @@ if  ply:InVehicle() and vehicleclass != "prop_vehicle_airboat" then
 	draw.SimpleText(2, "RacingHUDBold", (ScrW()/2+25), (ScrH()/2 -100), Color(255,255,255,255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	end
 	
-	if seconds == 1 then	
+	if seconds == 1 then	 
 	draw.SimpleText(1, "RacingHUDBold", (ScrW()/2+25), (ScrH()/2 -100), Color(255,255,255,255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	end
 	
@@ -176,9 +131,9 @@ if  ply:InVehicle() and vehicleclass != "prop_vehicle_airboat" then
 	end
 end
 end
+draw.SimpleText("$" .. ply:GetNWInt("money"), "RacingHUDSmall", ScrW()/98, ScrH()-10, Color(255,255,255,150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 hoveringNames()
 end)
-
 
 timer.Create( "timerDisableGO!", 2, 0, function()
 
@@ -188,5 +143,10 @@ timer.Create( "timerDisableGO!", 2, 0, function()
 	
 end)
 
+timer.Create("ifGameOver", 1, 0, function()
 
+	if !raceactive then
+		laps = 1
+	end
+end)
 
