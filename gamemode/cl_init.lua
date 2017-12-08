@@ -73,7 +73,8 @@ surface.CreateFont("RacingHUDBold", {
        font = "Roboto Black"})
 
 hook.Add( "Think", "includeMusic", musicLogic)
-	
+
+
 function hoveringNames()
  local ply = LocalPlayer()
 	for id,target in pairs(ents.FindByClass("Player")) do
@@ -110,6 +111,12 @@ hook.Add( "HUDPaint", "DrawNames", function()
 	
 if  ply:InVehicle() and vehicleclass != "prop_vehicle_airboat" then
 	
+	if !netbool and roundactive then
+	timer.Start("timerHUD")
+	draw.SimpleText((timerMinutes .. ":"..timerSeconds .. ":" .. timerMs), "RacingHUDSmall", ScrW()/2, ScrH()/2, Color(255,255,255,150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	else
+	timer.Remove("timerHUD")
+	end
 	draw.SimpleText("CHECKPOINTS:", "RacingHUDSmall", ScrW()-150, ScrH()-125, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	draw.SimpleText(laps, "RacingHUDV2", ScrW()-90, ScrH()-130, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	draw.SimpleText("/", "RacingHUD", ScrW()-60, ScrH()-110, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
@@ -131,7 +138,7 @@ if  ply:InVehicle() and vehicleclass != "prop_vehicle_airboat" then
 	end
 end
 end
-draw.SimpleText("$" .. ply:GetNWInt("money"), "RacingHUDSmall", ScrW()/98, ScrH()-10, Color(255,255,255,150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+draw.SimpleText("MONEY: $" .. ply:GetNWInt("money"), "RacingHUDSmall", ScrW()/2, ScrH()-10, Color(255,255,255,150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 hoveringNames()
 end)
 
@@ -149,4 +156,33 @@ timer.Create("ifGameOver", 1, 0, function()
 		laps = 1
 	end
 end)
+
+timerMs = 00
+timerSeconds = 00
+timerMinutes = 00
+timer.Adjust("timerHUD",.1,0, function()
+	
+	timerMs = timerMs + 0.1
+	math.Round(timerMs,-1)
+	if timerMs > 9 then
+	timerMs = 00
+	timerSeconds = timerSeconds + 01
+	math.Round(timerSeconds,-1)
+	end
+	if timerSeconds > 59 then
+	timerMs = 00
+	timerSeconds = 00
+	timerMinutes = timerMinutes + 01
+	math.Round(timerMinutes,-1)
+	end
+	if timerMinutes > 59 then
+	timerMs = 00
+	timerSeconds = 00
+	timerMinutes = timerMinutes + 0
+	end
+	
+	totalTime = (timerMinutes .. ":"..timerSeconds .. ":" .. timerMs)
+
+end)
+
 

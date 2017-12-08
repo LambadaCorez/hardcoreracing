@@ -140,6 +140,7 @@ function RoundEndCheck()
 			if racersAlive == 1 then
 			for k, v in pairs(team.GetPlayers( 0 )) do
 			if v:Alive() then
+			v:SetNWInt("money", v:GetNWInt("money") + 500)
 			EndRound("Every racer but " .. v:Nick() .." is dead: " .. v:Nick())
 			end
 			end

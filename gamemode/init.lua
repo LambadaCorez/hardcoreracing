@@ -15,27 +15,8 @@ util.AddNetworkString("10secondInt")
 util.AddNetworkString("playersFinished")
 util.AddNetworkString("openCustomMenu")
 util.AddNetworkString("color")
-local racecarlocation = 0
-	
-	net.Receive( "color", function( len, ply )
-	
-		ply.vehicleColor = net.ReadColor()
-	
-	end)
-	
-	net.Receive( "lapBool", function( len, racer )
-		if ( IsValid( racer ) and racer:IsPlayer() ) then
-			lapBool = net.ReadBool(32)
-		end
-	end)
-	
-	net.Receive("10secondBool", function( len, ply )
-		tenSeconds = net.ReadBool(32)
-	end)
-
-	net.Receive( "race_active", function( len )
-	raceactive = net.ReadBool()
-	end)
+util.AddNetworkString("buyCar")
+util.AddNetworkString("buyCustoms")
 
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
@@ -48,6 +29,7 @@ include("shared.lua")
 include("player.lua")
 include("round.lua")
 include("variables.lua")
+include("playerload.lua")
 
 include("points/deathzones/deathzone1.lua")
 include("points/deathzones/deathzone2.lua")
@@ -91,8 +73,6 @@ include("entities/demodurby/airboat5.lua")
 include("entities/demodurby/airboat6.lua")
 include("entities/props/jump/barrier.lua")
 
-
-
 playerspawn = {}
 
 playerspawn[0] = Vector(-421.229248, 11668.021484, 576.031250)
@@ -131,28 +111,143 @@ cars[4] = {car = "models/tdmcars/skyline_r34.mdl"}
 cars[5] = {car = "models/tdmcars/nis_370z.mdl"}
 cars[6] = {car = "models/tdmcars/mitsu_eclipgt.mdl"}
 
- 
-bumpers = {}
 
-bumpers[0] = {"bumperfb.smd"}
-bumpers[1] = {"bumperfc.smd"}
-bumpers[2] = {"bumperfd.smd"}
-bumpers[2] = {"bumperfe.smd"}
-bumpers[3] = {"bumperff.smd"}
-bumpers[4] = {"bumperfg.smd"}
-bumpers[5] = {"bumperfh.smd"}
+carmoney = {}
+
+carmoney[0] = {cost = 2000}
+carmoney[1] = {cost = 5000}
+carmoney[2] = {cost = 5500}
+carmoney[3] = {cost = 6000}
+carmoney[4] = {cost = 8000}
+carmoney[5] = {cost = 4000}
+carmoney[6] = {cost = 3000}
+
+local racecarlocation = 0
+
+raceactive = false
+
+	net.Receive("buyCustoms", function( len, ply )
+		
+		ply.vehicleConfig = net.ReadString()
+		
+		local vehCheck = tonumber(ply:GetNWInt("pCar"))
+		print(tonumber(ply:GetNWInt("pCar")))
+		if ply:GetNWInt("pCar") == 0 then
+		ply:SetPData("pGSX", ply.vehicleConfig)
+		ply:SetNWString("pGSX", ply.vehicleConfig)
+		print("saved to gsx")
+		end
+		
+		if ply:GetNWInt("pCar") == 1 then
+		ply:SetPData("pSIL", ply.vehicleConfig)
+		ply:SetNWString("pSIL", ply.vehicleConfig)
+		print("saved to silvia")
+		end
+		
+		if ply:GetNWInt("pCar") == 2 then
+		ply:SetPData("pEV8", ply.vehicleConfig)
+		ply:SetNWString("pEV8", ply.vehicleConfig) 
+		print("saved to EV8")
+		end
+		
+		if ply:GetNWInt("pCar") == 3 then
+		ply:SetPData("pEVX", ply.vehicleConfig)
+		ply:SetNWString("pEVX", ply.vehicleConfig)
+		print("saved to evx")
+		end
+		
+		if ply:GetNWInt("pCar") == 4 then
+		ply:SetPData("pR34", ply.vehicleConfig)
+		ply:SetNWString("pR34", ply.vehicleConfig)
+		print("saved to r34")
+		end
+		
+		if ply:GetNWInt("pCar") == 5 then 
+		ply:SetPData("p370", ply.vehicleConfig)
+		ply:SetNWString("p370", ply.vehicleConfig)
+		print("saved to 370zx")
+		end
+		
+		if ply:GetNWInt("pCar") == 6 then
+		ply:SetPData("pMGT", ply.vehicleConfig)
+		ply:SetNWString("pMGT", ply.vehicleConfig)
+		print("saved to errr")
+		end
+		
+		print(ply:Nick() .. " ERRR " .. ply.vehicleConfig)
+		
+		ply:ChatPrint("Car customization set!")
+		
+		
+	end)
+	
+	net.Receive("buyCar", function( len, ply )
+	
+		ply.reserveMoney = tonumber(ply:GetNWInt("money"))
+		
+		ply.purchase = net.ReadInt(32)
+		
+		if ply.reserveMoney < carmoney[ply.purchase].cost then
+		
+			ply:ChatPrint("You don't have enough money for that car!")
+		
+		end
+		
+		if ply.reserveMoney >= carmoney[ply.purchase].cost then
+			
+			ply.reserveMoney = ply.reserveMoney - carmoney[ply.purchase].cost
+			ply:SetPData("pCar", ply.purchase)
+			ply:SetNWInt("pCar", ply.purchase)
+			ply:SetPData("money", ply.reserveMoney)
+			ply:SetNWInt("money", ply.reserveMoney)
+			
+			ply:ChatPrint("Car successfully purchased and equipped!")
+		
+		end
+		
+		
+	
+	
+	end)
+	
+	net.Receive( "color", function( len, ply )
+		
+		if tonumber(ply:GetNWInt("money")) >= 100 then
+			ply:ChatPrint("Car color switched! Cost: $100")
+			ply.vehicleColor = net.ReadColor()
+			ply:SetNWInt("money", ply:GetNWInt("money") - 100)
+		else
+		
+			ply:ChatPrint("You don't have enough money to change your color! You need at least $100!")
+		
+		end
+	
+	end)
+	
+	net.Receive( "lapBool", function( len, racer )
+		if ( IsValid( racer ) and racer:IsPlayer() ) then
+			lapBool = net.ReadBool(32)
+		end
+	end)
+	
+	net.Receive("10secondBool", function( len, ply )
+		tenSeconds = net.ReadBool(32)
+	end)
+
+	net.Receive( "race_active", function( len )
+	raceactive = net.ReadBool()
+	end)
 
 
-bodygroup = {}
-bodygroup[1] = {"frontbumper"}
 
-	raceactive = false
+	
 	
 	hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team )
 		if ply:SteamID() == "STEAM_0:0:47799736" or ply:SteamID() == "STEAM_0:1:42974043" then
 			if ( string.lower( text ) == "!start" ) then
 				RoundStart()
 			end
+			
 			if ( string.lower( text ) == "!stop" ) then
 				EndRound("FORCE STOP: Nobody")
 			end
@@ -162,6 +257,10 @@ bodygroup[1] = {"frontbumper"}
 				} )
 			end
 		end
+		
+		if ( string.lower( text ) == "!money" ) then
+				ply:SetNWInt("money", ply:GetNWInt("money") + 10000)
+			end
 end )
 	
 concommand.Add("r_spawn", function()
@@ -212,8 +311,26 @@ end)
 	function GM:PlayerInitialSpawn( ply )
 		PrintMessage( HUD_PRINTTALK, ply:Nick() .. " has spawned in!" )
 		
+		StatLoad( ply )
+		
 	end
-
+	
+	function GM:PlayerDisconnected( ply )
+	
+		StatSave( ply )
+	
+	end
+	
+	function GM:ShutDown()
+	
+		for k, v in pairs(player.GetAll()) do
+		
+		StatSave( v )
+		
+		end
+	
+	end
+	
 function GM:PlayerSpawn( ply )	
 		
 		spawnServer(ply)
@@ -284,13 +401,41 @@ function GM:ShowSpare2( ply )
 		racecarlocation = 0
 	end
 	
+if ply:GetNWInt("pCar") == 0 then
+	customVar = ply:GetNWString("pGSX")
+end
+
+if ply:GetNWInt("pCar") == 1 then
+	customVar = ply:GetNWString("pSIL")
+end
+if ply:GetNWInt("pCar") == 2 then
+	customVar = ply:GetNWString("pEV8")
+end
+if ply:GetNWInt("pCar") == 3 then
+	customVar = ply:GetNWString("pEVX")
+end
+if ply:GetNWInt("pCar") == 4 then
+	customVar = ply:GetNWString("pR34")
+end
+if ply:GetNWInt("pCar") == 5 then
+	customVar = ply:GetNWString("p370")
+end
+if ply:GetNWInt("pCar") == 6 then
+	customVar = ply:GetNWString("pMGT")
+end
+	print(customVar)
+	
 	if (netbool) then
 		if racercarlocation != 16 and ply.carSpawn == 0 then
 		
-		SpawnCar1(ply,ply.vehicleColor,cars[math.random(0,6)].car,racecarspawns[racecarlocation])
+		SpawnCar1(ply,ply.vehicleColor,tonumber(ply:GetNWInt("pCar")),racecarspawns[racecarlocation], customVar)
+		
 		spawnRace( ply, ply.vehicleNumber )
+		
 		ply.vehicleNumber = racecarlocation
+		
 		racecarlocation = racecarlocation + 1
+		
 		ply.carSpawn = 1
 		end
 	end
@@ -324,6 +469,8 @@ function GM:Think()
 			v.totalLaps = 1
 			v.boolValue = false
 			raceWinner = nil
+			raceSecond = nil
+			raceThird = nil
 			v.racersChecked = 0
 			racersFinished = 0
 			v.stopCheck = 0
@@ -331,6 +478,7 @@ function GM:Think()
 			v.killPossible = true
 			racecarlocation = 0
 			v.carSpawn = 0
+			v.alreadyWinner = 0
 		end
 	end
 	
@@ -380,7 +528,7 @@ function checkPoint2()
 			
 			v.boolValue = true
 			
-			net.Start("laps")
+			net.Start("laps") 
 			net.WriteInt(2,32)
 			net.Send(v)
 		
@@ -407,22 +555,36 @@ function checkPoint3()
 			net.WriteInt(3,32)
 			net.Send(v)
 			if v.stopCheck == 0 then
-			v:GetVehicle():Fire("TurnOff")
+			v:GetVehicle():Fire("TurnOff")	
 			v:SetNWInt("money", v:GetNWInt("money") + 100)
 			v.stopCheck = 1
 			end
-			if raceWinner == nil then
+			if raceWinner == nil and v.alreadyWinner == 0 then
 			raceWinner = v:Nick()
 			v:SetNWInt("money", v:GetNWInt("money") + 400)
+			v.alreadyWinner = 1 
+			elseif raceSecond == nil and raceWinner != nil and v.alreadyWinner == 0 then
+			raceSecond = v:Nick()
+			v:SetNWInt("money", v:GetNWInt("money") + 200)
+			v.alreadyWinner = 1
+			elseif raceThird == nil and raceWinner != nil and raceSecond != nil and v.alreadyWinner == 0 then
+			raceThird = v:Nick()
+			v:SetNWInt("money", v:GetNWInt("money") + 100)
+			v.alreadyWinner = 1
 			end
 			
 			if racersFinished == racersAlive and racerSend == 0 then
-			EndRound(raceWinner)
+			if racerSecond == nil then
+			racerSecond = "Nobody"
+			end
+			if racerThird == nil then
+			racerThird = "Nobody"
+			end
+			EndRound(raceWinner .." won 1st, " .. raceSecond .." won 2nd, and " .. raceThird .. " won 3rd.")
 			racerSend = 1
 			end
 
 		end
 	
 	end
-
 end
