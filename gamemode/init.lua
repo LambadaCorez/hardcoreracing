@@ -125,58 +125,61 @@ carmoney[6] = {cost = 3000}
 local racecarlocation = 0
 
 raceactive = false
+pregame = true
 
 	net.Receive("buyCustoms", function( len, ply )
 		
+		ply.reserveMoney = tonumber(ply:GetNWInt("money"))
+		
 		ply.vehicleConfig = net.ReadString()
+		
+		if ply.reserveMoney < 1000 then
+		
+		ply:ChatPrint("You don't have enough money to buy these upgrades!")
+		
+		else
 		
 		local vehCheck = tonumber(ply:GetNWInt("pCar"))
 		print(tonumber(ply:GetNWInt("pCar")))
-		if ply:GetNWInt("pCar") == 0 then
-		ply:SetPData("pGSX", ply.vehicleConfig)
-		ply:SetNWString("pGSX", ply.vehicleConfig)
+		if vehCheck == 0 then
+		ply:SetNWString("pGSX",ply.vehicleConfig)
 		print("saved to gsx")
 		end
 		
-		if ply:GetNWInt("pCar") == 1 then
-		ply:SetPData("pSIL", ply.vehicleConfig)
-		ply:SetNWString("pSIL", ply.vehicleConfig)
+		if vehCheck == 1 then
+		ply:SetNWString("pSIL",ply.vehicleConfig)
 		print("saved to silvia")
 		end
 		
-		if ply:GetNWInt("pCar") == 2 then
-		ply:SetPData("pEV8", ply.vehicleConfig)
-		ply:SetNWString("pEV8", ply.vehicleConfig) 
+		if vehCheck == 2 then
+		ply:SetNWString("pEV8",ply.vehicleConfig) 
 		print("saved to EV8")
 		end
 		
-		if ply:GetNWInt("pCar") == 3 then
-		ply:SetPData("pEVX", ply.vehicleConfig)
-		ply:SetNWString("pEVX", ply.vehicleConfig)
+		if vehCheck == 3 then
+		ply:SetNWString("pEVX",ply.vehicleConfig)
 		print("saved to evx")
 		end
 		
-		if ply:GetNWInt("pCar") == 4 then
-		ply:SetPData("pR34", ply.vehicleConfig)
-		ply:SetNWString("pR34", ply.vehicleConfig)
-		print("saved to r34")
+		if vehCheck == 4 then
+		ply:SetNWString("pR34",ply.vehicleConfig)
+		print("saved to r34" .. ply.vehicleConfig)
 		end
 		
-		if ply:GetNWInt("pCar") == 5 then 
-		ply:SetPData("p370", ply.vehicleConfig)
-		ply:SetNWString("p370", ply.vehicleConfig)
+		if vehCheck == 5 then 
+		ply:SetNWString("p370",ply.vehicleConfig)
 		print("saved to 370zx")
 		end
 		
-		if ply:GetNWInt("pCar") == 6 then
-		ply:SetPData("pMGT", ply.vehicleConfig)
-		ply:SetNWString("pMGT", ply.vehicleConfig)
-		print("saved to errr")
+		if vehCheck == 6 then
+		ply:SetNWString("pMGT",ply.vehicleConfig)
+		print("saved to mgt")
 		end
 		
-		print(ply:Nick() .. " ERRR " .. ply.vehicleConfig)
-		
-		ply:ChatPrint("Car customization set!")
+		ply:SetNWInt("money", ply:GetNWInt("money") - 1000)
+		end
+		print(ply.vehicleConfig)
+		ply:ChatPrint("Car customization set! Cost: $1000")
 		
 		
 	end)
@@ -201,7 +204,7 @@ raceactive = false
 			ply:SetPData("money", ply.reserveMoney)
 			ply:SetNWInt("money", ply.reserveMoney)
 			
-			ply:ChatPrint("Car successfully purchased and equipped!")
+			ply:ChatPrint("Car successfully purchased and equipped! Cost: $" .. carmoney[ply.purchase].cost)
 		
 		end
 		
@@ -215,6 +218,13 @@ raceactive = false
 		if tonumber(ply:GetNWInt("money")) >= 100 then
 			ply:ChatPrint("Car color switched! Cost: $100")
 			ply.vehicleColor = net.ReadColor()
+			ply.colorR = net.ReadInt(32)
+			ply.colorG = net.ReadInt(31)
+			ply.colorB = net.ReadInt(30)
+			ply:SetNWInt("colorR", ply.colorR)
+			ply:SetNWInt("colorG", ply.colorG)
+			ply:SetNWInt("colorB", ply.colorB)
+			ply:SetNWString("color", ply.vehicleColor)
 			ply:SetNWInt("money", ply:GetNWInt("money") - 100)
 		else
 		
@@ -238,16 +248,21 @@ raceactive = false
 	raceactive = net.ReadBool()
 	end)
 
+function GM:OnPlayerChat( ply, text )
 
+chat.PlaySound()
+
+end
 
 	
 	
 	hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team )
-		if ply:SteamID() == "STEAM_0:0:47799736" or ply:SteamID() == "STEAM_0:1:42974043" then
+		if ply:SteamID() == "STEAM_0:0:47799736" or ply:SteamID() == "STEAM_0:1:42974043" or pregame then
 			if ( string.lower( text ) == "!start" ) then
 				RoundStart()
 			end
-			
+			end
+		if ply:SteamID() == "STEAM_0:0:47799736" or ply:SteamID() == "STEAM_0:1:42974043" then
 			if ( string.lower( text ) == "!stop" ) then
 				EndRound("FORCE STOP: Nobody")
 			end
@@ -256,11 +271,12 @@ raceactive = false
 				ents.FindByClass("Airboat")
 				} )
 			end
-		end
-		
 		if ( string.lower( text ) == "!money" ) then
 				ply:SetNWInt("money", ply:GetNWInt("money") + 10000)
 			end
+		end
+		
+		
 end )
 	
 concommand.Add("r_spawn", function()
@@ -286,15 +302,13 @@ end)
 		SpawnDemoDurbyFence4()
 		SpawnDemoDurbyFence5()
 		SpawnDemoDurbyFence6()
-		SpawnBarrier(Vector(-9414.754883, -14216.900391, -970.301270))
-		SpawnBarrier(Vector(-9658.039063, -14052.523438, -959.863647))
-		SpawnBarrier(Vector(-9819.720703, -13939.192383, -958.509827))
-		SpawnBarrier(Vector(-9985.365234, -13823.000000, -958.358032))
-		SpawnBarrier(Vector(-10116.995117, -13730.319336, -958.886536))
-		SpawnBarrier(Vector(-10241.412109, -13662.445313, -959.388611))
-		SpawnBarrier(Vector(-10375.762695, -13570.988281, -959.509033))
-		SpawnBarrier(Vector(-10509.308594, -13481.958984, -959.572388))
-		SpawnBarrier(Vector(-10632.351563, -13400.067383, -959.652649))
+		SpawnBarrier(Vector(-9414.754883, -14216.900391, -965.301270))
+		SpawnBarrier(Vector(-9658.039063, -14052.523438, -965.863647))
+		SpawnBarrier(Vector(-9819.720703, -13939.192383, -965.509827))
+		SpawnBarrier(Vector(-9985.365234, -13823.000000, -965.358032))
+		SpawnBarrier(Vector(-10116.995117, -13730.319336, -965.886536))
+		SpawnBarrier(Vector(-10241.412109, -13662.445313, -965.388611))
+		SpawnBarrier(Vector(-10375.762695, -13570.988281, -965.509033))
 		SpawnAirboat1()
 		SpawnAirboat2()
 		SpawnAirboat3()
@@ -337,6 +351,8 @@ function GM:PlayerSpawn( ply )
 		ply:AllowFlashlight( false )
 		ply:SetNoCollideWithTeammates(true)
 		ply:GodEnable()
+		ply:Give("weapon_stunstick")
+		ply:Give("weapon_extinguisher")
 
 end
 
@@ -344,11 +360,32 @@ function GM:PlayerDeath( victim, inflictor, attacker )
 
 victim:SendLua("RunConsoleCommand('stopsound')")
 
+
+local leftover = 6
+
+timer.Create(victim:Nick(), 1, leftover, function()
+
+leftover = leftover - 1
+
+if victim:Alive() then
+
+timer.Remove(victim:Nick())
+
+end
+
+if leftover == 0 then
+
+victim:Spawn()
+timer.Remove(victim:Nick())
+end
+end)
+
 end
 	
 function GM:PlayerDeathSound()
 	return true
 end
+	
 	
 function GM:PlayerSetHandsModel( ply, ent )
 
@@ -401,36 +438,49 @@ function GM:ShowSpare2( ply )
 		racecarlocation = 0
 	end
 	
-if ply:GetNWInt("pCar") == 0 then
+	
+	
+local vehiCheck = tonumber(ply:GetNWInt("pCar"))
+
+local colorR = ply:GetNWInt("colorR")
+local colorG = ply:GetNWInt("colorG")
+local colorB = ply:GetNWInt("colorB")
+	
+if vehiCheck == 0 then
 	customVar = ply:GetNWString("pGSX")
 end
 
-if ply:GetNWInt("pCar") == 1 then
+if vehiCheck == 1 then
 	customVar = ply:GetNWString("pSIL")
 end
-if ply:GetNWInt("pCar") == 2 then
+if vehiCheck == 2 then
 	customVar = ply:GetNWString("pEV8")
 end
-if ply:GetNWInt("pCar") == 3 then
+if vehiCheck == 3 then
 	customVar = ply:GetNWString("pEVX")
 end
-if ply:GetNWInt("pCar") == 4 then
+if vehiCheck == 4 then
 	customVar = ply:GetNWString("pR34")
 end
-if ply:GetNWInt("pCar") == 5 then
+if vehiCheck == 5 then
 	customVar = ply:GetNWString("p370")
 end
-if ply:GetNWInt("pCar") == 6 then
+if vehiCheck == 6 then
 	customVar = ply:GetNWString("pMGT")
 end
-	print(customVar)
+
+if customVar == nil then 
+customVar = 0
+end
 	
 	if (netbool) then
 		if racercarlocation != 16 and ply.carSpawn == 0 then
 		
-		SpawnCar1(ply,ply.vehicleColor,tonumber(ply:GetNWInt("pCar")),racecarspawns[racecarlocation], customVar)
+		SpawnCar1(ply,Color(colorR,colorG,colorB,255),tonumber(ply:GetNWInt("pCar")),racecarspawns[racecarlocation], customVar)
 		
 		spawnRace( ply, ply.vehicleNumber )
+		
+		ply:StripWeapons()
 		
 		ply.vehicleNumber = racecarlocation
 		
@@ -577,8 +627,8 @@ function checkPoint3()
 			if racerSecond == nil then
 			racerSecond = "Nobody"
 			end
-			if racerThird == nil then
-			racerThird = "Nobody"
+			if raceThird == nil then
+			raceThird = "Nobody"
 			end
 			EndRound(raceWinner .." won 1st, " .. raceSecond .." won 2nd, and " .. raceThird .. " won 3rd.")
 			racerSend = 1

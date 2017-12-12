@@ -1,27 +1,29 @@
-// mitsu_evox, created by Russian N0Sc0Pz in 04/08/14 22:20:53, using Vehicle Controller (VCMod).
-
 "Vehicle"
 {
 	"WheelsPerAxle"		"2"
 	"Body"
 	{
 		"CounterTorqueFactor"	"0.9"
-		"MassCenterOverride"	"0 -6 10"
-		"MassOverride"			"1240"
-		"AddGravity"			"0.5"
+		"MassCenterOverride"	"0 -7 1"
+		"MassOverride"			"1736"
+		"AddGravity"			"0.6"
 		"MaxAngularVelocity"	"720"
 	}
 	"Engine"
 	{
-		"HorsePower"			"305"
-		"MaxRPM"				"3800"
-		"MaxSpeed"				"83"
-		"MaxReverseSpeed"		"23"
+		"HorsePower"			"400"
+		"MaxRPM"				"3900"
+		"MaxSpeed"				"112"
+		"MaxReverseSpeed"		"27"
 		"AutobrakeSpeedGain"	"0"
 		"AutobrakeSpeedFactor"	"0"
 		"Autotransmission"		"0"
-		"AxleRatio"				"6"
+		"AxleRatio"				"5"
 		"Gear"					"3.2"
+		"Gear"					"2.4"
+		"Gear"					"1.5"
+		"Gear"					"1"
+		"Gear"					"0.84"
 
 		"ShiftUpRPM"			"3800"
 		"ShiftDownRPM"			"1600"
@@ -29,24 +31,24 @@
 	"Steering"
 	{
 		"DegreesSlow"						"40"
-		"DegreesFast"						"7"
+		"DegreesFast"						"8"
 		"DegreesBoost"						"11"
-		"FastDampen"						"50"
+		"FastDampen"						"60"
 		"SteeringExponent"					"0"
-		"SlowCarSpeed"						"1"
-		"FastCarSpeed"						"70"
-		"SlowSteeringRate"					"2.8"
-		"FastSteeringRate"					"2"
-		"SteeringRestRateSlow"				"2.8"
-		"SteeringRestRateFast"				"2"
+		"SlowCarSpeed"						"4"
+		"FastCarSpeed"						"45"
+		"SlowSteeringRate"					"2.7"
+		"FastSteeringRate"					"1.8"
+		"SteeringRestRateSlow"				"2.7"
+		"SteeringRestRateFast"				"1.8"
 		"TurnThrottleReduceSlow"			"0.01"
 		"TurnThrottleReduceFast"			"0.6"
-		"BrakeSteeringRateFactor"			"2.8"
-		"ThrottleSteeringRestRateFactor"	"2"
+		"BrakeSteeringRateFactor"			"2.7"
+		"ThrottleSteeringRestRateFactor"	"1.8"
 		"BoostSteeringRestRateFactor"		"1.7"
 		"BoostSteeringRateFactor"			"1.7"
 
-		"PowerSlideAccel"					"250"
+		"PowerSlideAccel"					"180"
 
 		"SkidAllowed"						"1"
 		"DustCloud"							"1"
@@ -55,10 +57,10 @@
 	{
 		"Wheel"
 		{
-			"Radius"						"15"
-			"Mass"							"260"
-			"Inertia"						"1.2"
-			"Damping"						"0.1"
+			"Radius"						"16.5"
+			"Mass"							"200"
+			"Inertia"						"1.1"
+			"Damping"						"0"
 			"RotDamping"					"0"
 			"Material"						"phx_rubbertire2"
 			"SkidMaterial"					"slidingrubbertire"
@@ -66,38 +68,38 @@
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"70"
-			"SpringDamping"					"1"
+			"SpringConstant"				"50"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
 			"SpringDampingCompression"		"7"
-			"MaxBodyForce"					"20"
+			"MaxBodyForce"					"30"
 		}
-		"TorqueFactor"						"0.5"
-		"BrakeFactor"						"0.48"
+		"TorqueFactor"						"0.4"
+		"BrakeFactor"						"0.5"
 	}
 	"Axle"
 	{
 		"Wheel"
 		{
-			"Radius"						"15"
-			"Mass"							"300"
-			"Inertia"						"1.2"
-			"Damping"						"0.8"
-			"RotDamping"					"0"
+			"Radius"						"16.5"
+			"Mass"							"200"
+			"Inertia"						"1.1"
+			"Damping"						"0.36"
+			"RotDamping"					"0.9"
 			"Material"						"phx_rubbertire2"
 			"SkidMaterial"					"slidingrubbertire"
 			"BrakeMaterial"					"brakingrubbertire"
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"150"
-			"SpringDamping"					"1"
+			"SpringConstant"				"60"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
 			"SpringDampingCompression"		"7"
-			"MaxBodyForce"					"25"
+			"MaxBodyForce"					"35"
 		}
-		"TorqueFactor"						"0.5"
-		"BrakeFactor"						"0.48"
+		"TorqueFactor"						"0.4"
+		"BrakeFactor"						"0.5"
 	}
 }
 
@@ -110,17 +112,17 @@
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.36"
+		"Max_Speed"				"0.23"
 		"Speed_Approach_Factor"	"0.08"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.47"
+		"Max_Speed"				"0.32"
 		"Speed_Approach_Factor"	"0.05"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.58"
+		"Max_Speed"				"0.42"
 		"Speed_Approach_Factor"	"0.035"
 	}
 	"Gear"

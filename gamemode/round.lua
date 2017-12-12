@@ -26,7 +26,7 @@ end
 
 
 function RoundStart()
-
+pregame = true
 
 	if ((#player.GetAll()) < 2) then
 	
@@ -38,6 +38,7 @@ function RoundStart()
 	UpdateTimer(time)
 		
 		timer.Create( "roundstart", 1, time, function()
+		pregame = false
 		if time != 1 then
 		PrintMessage(HUD_PRINTCENTER, "Race starting in " .. time - 1 .. " seconds!" )
 		else
@@ -75,7 +76,7 @@ end
 function RoundEndCheck()
 	seconds = math.Clamp(20,0,20)
 	netbool = false
-	PrintMessage(HUD_PRINTCENTER,"RACE STARTED! Press F4 to quickly get in a car! Be fast, you only have 20 seconds!")
+	PrintMessage(HUD_PRINTCENTER,"RACE STARTED! Press F4 quickly to get in your car! Be fast, you only have 20 seconds!")
 		timer.Create("10Seconds", 1, seconds, function()
 			seconds = seconds - 1
 			netbool = true
@@ -191,6 +192,7 @@ function EndRound(winners)
 			net.WriteBool( false )
 		net.Broadcast()
 		raceactive = false
+		pregame = true
 		SpawnFence()
 		SpawnFence2()
 		SpawnDemoDurbyFence1()

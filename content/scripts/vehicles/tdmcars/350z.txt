@@ -1,26 +1,24 @@
-// 350z, created by TDM in 04/23/14 14:22:08, using Vehicle Controller (VCMod).
-
 "Vehicle"
 {
 	"WheelsPerAxle"		"2"
 	"Body"
 	{
 		"CounterTorqueFactor"	"0.9"
-		"MassCenterOverride"	"0 -7 2"
-		"MassOverride"			"1501"
-		"AddGravity"			"0.5"
+		"MassCenterOverride"	"0 -7 1"
+		"MassOverride"			"1736"
+		"AddGravity"			"0.6"
 		"MaxAngularVelocity"	"720"
 	}
 	"Engine"
 	{
-		"HorsePower"			"287"
-		"MaxRPM"				"3600"
-		"MaxSpeed"				"99"
-		"MaxReverseSpeed"		"24"
+		"HorsePower"			"400"
+		"MaxRPM"				"3900"
+		"MaxSpeed"				"112"
+		"MaxReverseSpeed"		"27"
 		"AutobrakeSpeedGain"	"0"
 		"AutobrakeSpeedFactor"	"0"
 		"Autotransmission"		"0"
-		"AxleRatio"				"6.6"
+		"AxleRatio"				"5"
 		"Gear"					"3.2"
 		"Gear"					"2.4"
 		"Gear"					"1.5"
@@ -33,7 +31,7 @@
 	"Steering"
 	{
 		"DegreesSlow"						"40"
-		"DegreesFast"						"9"
+		"DegreesFast"						"8"
 		"DegreesBoost"						"11"
 		"FastDampen"						"60"
 		"SteeringExponent"					"0"
@@ -59,8 +57,8 @@
 	{
 		"Wheel"
 		{
-			"Radius"						"15.5"
-			"Mass"							"170"
+			"Radius"						"16.5"
+			"Mass"							"200"
 			"Inertia"						"1.1"
 			"Damping"						"0"
 			"RotDamping"					"0"
@@ -70,37 +68,37 @@
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"68"
-			"SpringDamping"					"1"
+			"SpringConstant"				"50"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
-			"SpringDampingCompression"		"6"
+			"SpringDampingCompression"		"7"
 			"MaxBodyForce"					"30"
 		}
-		"TorqueFactor"						"0.1"
+		"TorqueFactor"						"0.4"
 		"BrakeFactor"						"0.5"
 	}
 	"Axle"
 	{
 		"Wheel"
 		{
-			"Radius"						"15.5"
-			"Mass"							"210"
+			"Radius"						"16.5"
+			"Mass"							"200"
 			"Inertia"						"1.1"
-			"Damping"						"0.25"
-			"RotDamping"					"0.93"
+			"Damping"						"0.36"
+			"RotDamping"					"0.9"
 			"Material"						"phx_rubbertire2"
 			"SkidMaterial"					"slidingrubbertire"
 			"BrakeMaterial"					"brakingrubbertire"
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"65"
-			"SpringDamping"					"1"
+			"SpringConstant"				"60"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
-			"SpringDampingCompression"		"6"
-			"MaxBodyForce"					"33"
+			"SpringDampingCompression"		"7"
+			"MaxBodyForce"					"35"
 		}
-		"TorqueFactor"						"0.5"
+		"TorqueFactor"						"0.4"
 		"BrakeFactor"						"0.5"
 	}
 }
@@ -114,17 +112,17 @@
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.25"
+		"Max_Speed"				"0.23"
 		"Speed_Approach_Factor"	"0.08"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.4"
+		"Max_Speed"				"0.32"
 		"Speed_Approach_Factor"	"0.05"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.56"
+		"Max_Speed"				"0.42"
 		"Speed_Approach_Factor"	"0.035"
 	}
 	"Gear"

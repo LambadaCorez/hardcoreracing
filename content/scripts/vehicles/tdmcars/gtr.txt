@@ -1,5 +1,3 @@
-// gtr, created by TDM in 04/23/14 13:12:55, using Vehicle Controller (VCMod).
-
 "Vehicle"
 {
 	"WheelsPerAxle"		"2"
@@ -13,7 +11,7 @@
 	}
 	"Engine"
 	{
-		"HorsePower"			"542"
+		"HorsePower"			"400"
 		"MaxRPM"				"3900"
 		"MaxSpeed"				"112"
 		"MaxReverseSpeed"		"27"

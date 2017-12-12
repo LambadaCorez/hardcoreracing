@@ -1,26 +1,24 @@
-// nissilvs15, created by TDM in 04/23/14 16:22:56, using Vehicle Controller (VCMod).
-
 "Vehicle"
 {
 	"WheelsPerAxle"		"2"
 	"Body"
 	{
-		"CounterTorqueFactor"	"0.7"
-		"MassCenterOverride"	"0 -3 2"
-		"MassOverride"			"1240"
+		"CounterTorqueFactor"	"0.9"
+		"MassCenterOverride"	"0 -7 1"
+		"MassOverride"			"1736"
 		"AddGravity"			"0.6"
 		"MaxAngularVelocity"	"720"
 	}
 	"Engine"
 	{
-		"HorsePower"			"250"
-		"MaxRPM"				"3300"
-		"MaxSpeed"				"75"
-		"MaxReverseSpeed"		"24"
+		"HorsePower"			"400"
+		"MaxRPM"				"3900"
+		"MaxSpeed"				"112"
+		"MaxReverseSpeed"		"27"
 		"AutobrakeSpeedGain"	"0"
 		"AutobrakeSpeedFactor"	"0"
 		"Autotransmission"		"0"
-		"AxleRatio"				"6.6"
+		"AxleRatio"				"5"
 		"Gear"					"3.2"
 		"Gear"					"2.4"
 		"Gear"					"1.5"
@@ -33,7 +31,7 @@
 	"Steering"
 	{
 		"DegreesSlow"						"40"
-		"DegreesFast"						"9"
+		"DegreesFast"						"8"
 		"DegreesBoost"						"11"
 		"FastDampen"						"60"
 		"SteeringExponent"					"0"
@@ -50,7 +48,7 @@
 		"BoostSteeringRestRateFactor"		"1.7"
 		"BoostSteeringRateFactor"			"1.7"
 
-		"PowerSlideAccel"					"120"
+		"PowerSlideAccel"					"180"
 
 		"SkidAllowed"						"1"
 		"DustCloud"							"1"
@@ -59,10 +57,10 @@
 	{
 		"Wheel"
 		{
-			"Radius"						"14.5"
+			"Radius"						"16.5"
 			"Mass"							"200"
 			"Inertia"						"1.1"
-			"Damping"						"0.15"
+			"Damping"						"0"
 			"RotDamping"					"0"
 			"Material"						"phx_rubbertire2"
 			"SkidMaterial"					"slidingrubbertire"
@@ -70,23 +68,23 @@
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"85"
-			"SpringDamping"					"1"
+			"SpringConstant"				"50"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
-			"SpringDampingCompression"		"6"
-			"MaxBodyForce"					"27"
+			"SpringDampingCompression"		"7"
+			"MaxBodyForce"					"30"
 		}
-		"TorqueFactor"						"0.1"
+		"TorqueFactor"						"0.4"
 		"BrakeFactor"						"0.5"
 	}
 	"Axle"
 	{
 		"Wheel"
 		{
-			"Radius"						"14.5"
-			"Mass"							"230"
+			"Radius"						"16.5"
+			"Mass"							"200"
 			"Inertia"						"1.1"
-			"Damping"						"0.35"
+			"Damping"						"0.36"
 			"RotDamping"					"0.9"
 			"Material"						"phx_rubbertire2"
 			"SkidMaterial"					"slidingrubbertire"
@@ -94,13 +92,13 @@
 		}
 		"Suspension"
 		{
-			"SpringConstant"				"130"
-			"SpringDamping"					"1"
+			"SpringConstant"				"60"
+			"SpringDamping"					"0.9"
 			"StabilizerConstant"			"0"
-			"SpringDampingCompression"		"6"
-			"MaxBodyForce"					"30"
+			"SpringDampingCompression"		"7"
+			"MaxBodyForce"					"35"
 		}
-		"TorqueFactor"						"0.5"
+		"TorqueFactor"						"0.4"
 		"BrakeFactor"						"0.5"
 	}
 }
@@ -114,17 +112,17 @@
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.43"
+		"Max_Speed"				"0.23"
 		"Speed_Approach_Factor"	"0.08"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.6"
+		"Max_Speed"				"0.32"
 		"Speed_Approach_Factor"	"0.05"
 	}
 	"Gear"
 	{
-		"Max_Speed"				"0.78"
+		"Max_Speed"				"0.42"
 		"Speed_Approach_Factor"	"0.035"
 	}
 	"Gear"

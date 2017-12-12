@@ -7,18 +7,18 @@ CreateClientConVar("ColorBlue",0,true,false,"")
 
 carlist = {}
 
-
+carlist[0] = {car = "Mitsubishi Eclipse GSX"}	
 carlist[1] = {car = "Nissan Silvia S15"}
-
-
-carlist[4] = {car = "Nissan Skyline R34"}
-
-
-carlist[5] = {car = "Nissan 370Z"}
-carlist[3] = {car = "Mitsubishi Evolution X"}
-carlist[0] = {car = "Mitsubishi Eclipse GSX"}
-carlist[6] = {car = "Mitsubishi Eclipse GT"}
 carlist[2] = {car = "Mitsubishi Evolution VIII"}
+carlist[3] = {car = "Mitsubishi Evolution X"}
+carlist[4] = {car = "Nissan Skyline R34"}
+carlist[5] = {car = "Nissan 370Z"}
+carlist[6] = {car = "Mitsubishi Eclipse GT"}
+
+
+
+
+
 
 
 cars = {}
@@ -345,15 +345,14 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	fbumper:SetSize(200,100)
 	fbumper:SetValue("Front Bumpers:")
 	fbumper:AddChoice("Bumper 1", 0, false)
-	fbumper:AddChoice("Bumper 2", 0, false)
-	fbumper:AddChoice("Bumper 3", 1, false)
-	fbumper:AddChoice("Bumper 4", 2, false)
-	fbumper:AddChoice("Bumper 5", 3, false)
-	fbumper:AddChoice("Bumper 6", 4, false)
-	fbumper:AddChoice("Bumper 7", 5, false)
+	fbumper:AddChoice("Bumper 2", 1, false)
+	fbumper:AddChoice("Bumper 3", 2, false)
+	fbumper:AddChoice("Bumper 4", 3, false)
+	fbumper:AddChoice("Bumper 5", 4, false)
+	fbumper:AddChoice("Bumper 6", 5, false)
 	fbumper.OnSelect = function( panel, index, value )
 		frontbump = index
-		prev.Entity:SetBodygroup(3,index - 1)
+		prev.Entity:SetBodygroup(3,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -364,15 +363,13 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	bbumper:SetSize(200,100)
 	bbumper:SetValue("Rear Bumpers:")
 	bbumper:AddChoice("Rear Bumper 1", 0, false)
-	bbumper:AddChoice("Rear Bumper 2", 0, false)
-	bbumper:AddChoice("Rear Bumper 3", 1, false)
-	bbumper:AddChoice("Rear Bumper 4", 2, false)
-	bbumper:AddChoice("Rear Bumper 5", 3, false)
-	bbumper:AddChoice("Rear Bumper 6", 4, false)
-	bbumper:AddChoice("Rear Bumper 7", 5, false)
+	bbumper:AddChoice("Rear Bumper 2", 1, false)
+	bbumper:AddChoice("Rear Bumper 3", 2, false)
+	bbumper:AddChoice("Rear Bumper 4", 3, false)
+	bbumper:AddChoice("Rear Bumper 5", 4, false)
 	bbumper.OnSelect = function( panel, index, value )
 		rearbump = index
-		prev.Entity:SetBodygroup(4,index - 1)
+		prev.Entity:SetBodygroup(4,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -383,15 +380,13 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	skirt:SetSize(200,100)
 	skirt:SetValue("Skirts:")
 	skirt:AddChoice("Skirt Option 1", 0, false)
-	skirt:AddChoice("Skirt Option 2", 0, false)
-	skirt:AddChoice("Skirt Option 3", 1, false)
-	skirt:AddChoice("Skirt Option 4", 2, false)
-	skirt:AddChoice("Skirt Option 5", 3, false)
-	skirt:AddChoice("Skirt Option 6", 4, false)
+	skirt:AddChoice("Skirt Option 2", 1, false)
+	skirt:AddChoice("Skirt Option 3", 2, false)
+	skirt:AddChoice("Skirt Option 4", 3, false)
 	skirt.OnSelect = function( panel, index, value )
 		skirts = index
 		total = 1000
-		prev.Entity:SetBodygroup(5,index - 1)
+		prev.Entity:SetBodygroup(5,index)
 		
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -402,10 +397,9 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	hood:SetSize(200,100)
 	hood:SetValue("Hoods:")
 	hood:AddChoice("Hood Option 1", 0, false)
-	hood:AddChoice("Hood Option 2", 0, false)
 	hood.OnSelect = function( panel, index, value )
 		hoods = index
-		prev.Entity:SetBodygroup(6,index - 1)
+		prev.Entity:SetBodygroup(6,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -415,13 +409,12 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wing:SetPos(450,350)
 	wing:SetSize(200,100)
 	wing:SetValue("Spoilers:")
-	wing:AddChoice("Remove Spoiler", 0, false)
 	wing:AddChoice("Spoiler Option 1", 0, false)
 	wing:AddChoice("Spoiler Option 2", 1, false)
 	wing:AddChoice("Spoiler Option 3", 2, false)
 	wing.OnSelect = function( panel, index, value )
 		wings = index
-		prev.Entity:SetBodygroup(8,index - 1)
+		prev.Entity:SetBodygroup(8,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -432,11 +425,9 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wheels:SetSize(200,100)
 	wheels:SetValue("Wheels:")
 	wheels:AddChoice("Tire Option 1", 0, false)
-	wheels:AddChoice("Tire Option 2", 0, false)
-	wheels:AddChoice("Tire Option 3", 1, false)
 	wheels.OnSelect = function( panel, index, value )
 		wheelz = index
-		prev.Entity:SetBodygroup(9,index - 1)
+		prev.Entity:SetBodygroup(9,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -451,16 +442,15 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	fbumper:SetSize(200,100)
 	fbumper:SetValue("Front Bumpers:")
 	fbumper:AddChoice("Bumper 1", 0, false)
-	fbumper:AddChoice("Bumper 2", 0, false)
-	fbumper:AddChoice("Bumper 3", 1, false)
-	fbumper:AddChoice("Bumper 4", 2, false)
-	fbumper:AddChoice("Bumper 5", 3, false)
-	fbumper:AddChoice("Bumper 6", 4, false)
-	fbumper:AddChoice("Bumper 7", 5, false)
-	fbumper:AddChoice("Bumper 8", 6, false)
+	fbumper:AddChoice("Bumper 2", 1, false)
+	fbumper:AddChoice("Bumper 3", 2, false)
+	fbumper:AddChoice("Bumper 4", 3, false)
+	fbumper:AddChoice("Bumper 5", 4, false)
+	fbumper:AddChoice("Bumper 6", 5, false)
+	fbumper:AddChoice("Bumper 7", 6, false)
 	fbumper.OnSelect = function( panel, index, value )
-		frontbump = index
-		prev.Entity:SetBodygroup(3,index - 1)
+		frontbump = index - 2
+		prev.Entity:SetBodygroup(3,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -471,16 +461,14 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	bbumper:SetSize(200,100)
 	bbumper:SetValue("Rear Bumpers:")
 	bbumper:AddChoice("Rear Bumper 1", 0, false)
-	bbumper:AddChoice("Rear Bumper 2", 0, false)
-	bbumper:AddChoice("Rear Bumper 3", 1, false)
-	bbumper:AddChoice("Rear Bumper 4", 2, false)
-	bbumper:AddChoice("Rear Bumper 5", 3, false)
-	bbumper:AddChoice("Rear Bumper 6", 4, false)
-	bbumper:AddChoice("Rear Bumper 7", 5, false)
-	bbumper:AddChoice("Rear Bumper 8", 6, false)
+	bbumper:AddChoice("Rear Bumper 2", 1, false)
+	bbumper:AddChoice("Rear Bumper 3", 2, false)
+	bbumper:AddChoice("Rear Bumper 4", 3, false)
+	bbumper:AddChoice("Rear Bumper 5", 4, false)
+	bbumper:AddChoice("Rear Bumper 6", 5, false)
 	bbumper.OnSelect = function( panel, index, value )
 		rearbump = index
-		prev.Entity:SetBodygroup(4,index - 1)
+		prev.Entity:SetBodygroup(4,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -491,14 +479,13 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	skirt:SetSize(200,100)
 	skirt:SetValue("Skirts:")
 	skirt:AddChoice("Skirt Option 1", 0, false)
-	skirt:AddChoice("Skirt Option 2", 0, false)
-	skirt:AddChoice("Skirt Option 3", 1, false)
-	skirt:AddChoice("Skirt Option 4", 2, false)
-	skirt:AddChoice("Skirt Option 5", 3, false)
+	skirt:AddChoice("Skirt Option 2", 1, false)
+	skirt:AddChoice("Skirt Option 3", 2, false)
+	skirt:AddChoice("Skirt Option 4", 3, false)
 	skirt.OnSelect = function( panel, index, value )
 		skirts = index
 		total = 1000
-		prev.Entity:SetBodygroup(6,index - 1)
+		prev.Entity:SetBodygroup(6,index)
 		
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -509,11 +496,9 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	hood:SetSize(200,100)
 	hood:SetValue("Hoods:")
 	hood:AddChoice("Hood Option 1", 0, false)
-	hood:AddChoice("Hood Option 2", 0, false)
-	hood:AddChoice("Hood Option 3", 1, false)
 	hood.OnSelect = function( panel, index, value )
 		hoods = index
-		prev.Entity:SetBodygroup(5,index - 1)
+		prev.Entity:SetBodygroup(5,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -524,14 +509,16 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wing:SetPos(450,350)
 	wing:SetSize(200,100)
 	wing:SetValue("Spoilers:")
-	wing:AddChoice("Remove Spoiler", 0, false)
 	wing:AddChoice("Spoiler Option 1", 0, false)
 	wing:AddChoice("Spoiler Option 2", 1, false)
 	wing:AddChoice("Spoiler Option 3", 2, false)
+	wing:AddChoice("Spoiler Option 4", 3, false)
+	wing:AddChoice("Spoiler Option 5", 4, false)
+	wing:AddChoice("Spoiler Option 6", 5, false)
 	wing.OnSelect = function( panel, index, value )
 		
 		wings = index
-		prev.Entity:SetBodygroup(7,index - 1)
+		prev.Entity:SetBodygroup(7,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -542,11 +529,10 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wheels:SetSize(200,100)
 	wheels:SetValue("Wheels:")
 	wheels:AddChoice("Tire Option 1", 0, false)
-	wheels:AddChoice("Tire Option 2", 0, false)
-	wheels:AddChoice("Tire Option 3", 1, false)
+	wheels:AddChoice("Tire Option 2", 1, false)
 	wheels.OnSelect = function( panel, index, value )
 		wheelz = index
-		prev.Entity:SetBodygroup(8,index - 1)
+		prev.Entity:SetBodygroup(8,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -561,140 +547,11 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	fbumper:SetSize(200,100)
 	fbumper:SetValue("Front Bumpers:")
 	fbumper:AddChoice("Bumper 1", 0, false)
-	fbumper:AddChoice("Bumper 2", 0, false)
-	fbumper:AddChoice("Bumper 3", 1, false)
-	fbumper:AddChoice("Bumper 4", 2, false)
-	fbumper:AddChoice("Bumper 5", 3, false)
-	fbumper:AddChoice("Bumper 6", 4, false)
-	fbumper:AddChoice("Bumper 7", 5, false)
-	fbumper:AddChoice("Bumper 8", 6, false)
-	fbumper.OnSelect = function( panel, index, value )
-		frontbump = index
-		prev.Entity:SetBodygroup(3,index - 1)
-		total = 1000
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	local bbumper = vgui.Create( "DComboBox", customize )
-	
-	bbumper:SetPos(675,150)
-	bbumper:SetSize(200,100)
-	bbumper:SetValue("Rear Bumpers:")
-	bbumper:AddChoice("Rear Bumper 1", 0, false)
-	bbumper:AddChoice("Rear Bumper 2", 0, false)
-	bbumper:AddChoice("Rear Bumper 3", 1, false)
-	bbumper:AddChoice("Rear Bumper 4", 2, false)
-	bbumper:AddChoice("Rear Bumper 5", 3, false)
-	bbumper:AddChoice("Rear Bumper 6", 4, false)
-	bbumper:AddChoice("Rear Bumper 7", 5, false)
-	bbumper.OnSelect = function( panel, index, value )
-		rearbump = index
-		prev.Entity:SetBodygroup(4,index - 1)
-		total = 1000
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	local skirt = vgui.Create( "DComboBox", customize )
-	
-	skirt:SetPos(450,250)
-	skirt:SetSize(200,100)
-	skirt:SetValue("Skirts:")
-	skirt:AddChoice("Skirt Option 1", 0, false)
-	skirt:AddChoice("Skirt Option 2", 0, false)
-	skirt.OnSelect = function( panel, index, value )
-		skirts = index
-		total = 1000
-		prev.Entity:SetBodygroup(6,index - 1)
-		
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	local hood = vgui.Create( "DComboBox", customize )
-	
-	hood:SetPos(675,250)
-	hood:SetSize(200,100)
-	hood:SetValue("Hoods:")
-	hood:AddChoice("Hood Option 1", 0, false)
-	hood:AddChoice("Hood Option 2", 0, false)
-	hood:AddChoice("Hood Option 3", 1, false)
-	hood:AddChoice("Hood Option 4", 2, false)
-	hood:AddChoice("Hood Option 5", 3, false)
-	hood:AddChoice("Hood Option 6", 4, false)
-	hood:AddChoice("Hood Option 7", 5, false)
-	hood.OnSelect = function( panel, index, value )
-		hoods = index
-		prev.Entity:SetBodygroup(5,index - 1)
-		total = 1000
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	
-	local wing = vgui.Create( "DComboBox", customize )
-	
-	wing:SetPos(450,350)
-	wing:SetSize(200,100)
-	wing:SetValue("Spoilers:")
-	wing:AddChoice("Remove Spoiler", 0, false)
-	wing:AddChoice("Spoiler Option 1", 0, false)
-	wing:AddChoice("Spoiler Option 2", 1, false)
-	wing:AddChoice("Spoiler Option 3", 2, false)
-	wing:AddChoice("Spoiler Option 4", 3, false)
-	wing:AddChoice("Spoiler Option 5", 4, false)
-	wing:AddChoice("Spoiler Option 6", 5, false)
-	wing.OnSelect = function( panel, index, value )
-		
-		wings = index
-		prev.Entity:SetBodygroup(7,index - 1)
-		total = 1000
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	local roll = vgui.Create( "DComboBox", customize )
-	
-	roll:SetPos(675,350)
-	roll:SetSize(200,100)
-	roll:SetValue("Rollcages:")
-	roll:AddChoice("Rollcage Off", 0, false)
-	roll:AddChoice("Rollcage On", 1, false)
-	roll.OnSelect = function( panel, index, value )
-		rollcage = index
-		prev.Entity:SetBodygroup(8,index - 1)
-		total = 1000
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	local wheels = vgui.Create( "DComboBox", customize )
-	
-	wheels:SetPos(675,350)
-	wheels:SetSize(200,100)
-	wheels:SetValue("Wheels:")
-	wheels:AddChoice("Tire Option 1", 0, false)
-	wheels:AddChoice("Tire Option 2", 0, false)
-	wheels.OnSelect = function( panel, index, value )
-		wheelz = index
-		prev.Entity:SetBodygroup(9,index - 1)
-		total = 1000
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	end
-	
-	if number == 3 then -- mit evo x
-	
-	
-	local fbumper = vgui.Create( "DComboBox", customize )
-	
-	fbumper:SetPos(450,150)
-	fbumper:SetSize(200,100)
-	fbumper:SetValue("Front Bumpers:")
-	fbumper:AddChoice("Bumper 1", 0, false)
 	fbumper:AddChoice("Bumper 2", 1, false)
 	fbumper:AddChoice("Bumper 3", 2, false)
 	fbumper:AddChoice("Bumper 4", 3, false)
 	fbumper:AddChoice("Bumper 5", 4, false)
 	fbumper:AddChoice("Bumper 6", 5, false)
-	fbumper:AddChoice("Bumper 7", 6, false)
-	fbumper:AddChoice("Bumper 8", 7, false)
 	fbumper.OnSelect = function( panel, index, value )
 		frontbump = index
 		prev.Entity:SetBodygroup(3,index)
@@ -713,8 +570,106 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	bbumper:AddChoice("Rear Bumper 4", 3, false)
 	bbumper:AddChoice("Rear Bumper 5", 4, false)
 	bbumper:AddChoice("Rear Bumper 6", 5, false)
-	bbumper:AddChoice("Rear Bumper 7", 6, false)
-	bbumper:AddChoice("Rear Bumper 8", 7, false)
+	bbumper.OnSelect = function( panel, index, value )
+		rearbump = index
+		prev.Entity:SetBodygroup(4,index)
+		total = 1000
+		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
+	end
+	
+	local skirt = vgui.Create( "DComboBox", customize )
+	
+	skirt:SetPos(450,250)
+	skirt:SetSize(200,100)
+	skirt:SetValue("Skirts:")
+	skirt:AddChoice("Skirt Option 1", 0, false)
+	skirt:AddChoice("Skirt Option 2", 1, false)
+	skirt.OnSelect = function( panel, index, value )
+		skirts = index
+		total = 1000
+		prev.Entity:SetBodygroup(6,index)
+		
+		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
+	end
+	
+	local hood = vgui.Create( "DComboBox", customize )
+	
+	hood:SetPos(675,250)
+	hood:SetSize(200,100)
+	hood:SetValue("Hoods:")
+	hood:AddChoice("Hood Option 1", 0, false)
+	hood:AddChoice("Hood Option 2", 1, false)
+	hood:AddChoice("Hood Option 3", 2, false)
+	hood:AddChoice("Hood Option 4", 3, false)
+	hood:AddChoice("Hood Option 5", 4, false)
+	hood:AddChoice("Hood Option 6", 5, false)
+	hood.OnSelect = function( panel, index, value )
+		hoods = index
+		prev.Entity:SetBodygroup(5,index)
+		total = 1000
+		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
+	end
+	
+	
+	local wing = vgui.Create( "DComboBox", customize )
+	
+	wing:SetPos(450,350)
+	wing:SetSize(200,100)
+	wing:SetValue("Spoilers:")
+	wing:AddChoice("Spoiler Option 1", 0, false)
+	wing:AddChoice("Spoiler Option 2", 1, false)
+	wing:AddChoice("Spoiler Option 3", 2, false)
+	wing:AddChoice("Spoiler Option 4", 3, false)
+	wing:AddChoice("Spoiler Option 5", 4, false)
+	wing:AddChoice("Spoiler Option 6", 5, false)
+	wing.OnSelect = function( panel, index, value )
+		
+		wings = index
+		prev.Entity:SetBodygroup(7,index)
+		total = 1000
+		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
+	end
+	
+	local wheels = vgui.Create( "DComboBox", customize )
+	
+	wheels:SetPos(675,350)
+	wheels:SetSize(200,100)
+	wheels:SetValue("Wheels:")
+	wheels:AddChoice("Tire Option 1", 0, false)
+	wheels.OnSelect = function( panel, index, value )
+		wheelz = index
+		prev.Entity:SetBodygroup(9,index)
+		total = 1000
+		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
+	end
+	
+	end
+	
+	if number == 3 then -- mit evo x
+	
+	
+	local fbumper = vgui.Create( "DComboBox", customize )
+	
+	fbumper:SetPos(450,150)
+	fbumper:SetSize(200,100)
+	fbumper:SetValue("Front Bumpers:")
+	fbumper:AddChoice("Bumper 1", 0, false)
+	fbumper:AddChoice("Bumper 2", 1, false)
+	fbumper:AddChoice("Bumper 3", 2, false)
+	fbumper.OnSelect = function( panel, index, value )
+		frontbump = index
+		prev.Entity:SetBodygroup(3,index)
+		total = 1000
+		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
+	end
+	
+	local bbumper = vgui.Create( "DComboBox", customize )
+	
+	bbumper:SetPos(675,150)
+	bbumper:SetSize(200,100)
+	bbumper:SetValue("Rear Bumpers:")
+	bbumper:AddChoice("Rear Bumper 1", 0, false)
+	bbumper:AddChoice("Rear Bumper 2", 1, false)
 	bbumper.OnSelect = function( panel, index, value )
 		rearbump = index
 		prev.Entity:SetBodygroup(4,index)
@@ -760,7 +715,6 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wing:AddChoice("Spoiler Option 1", 0, false)
 	wing:AddChoice("Spoiler Option 2", 1, false)
 	wing:AddChoice("Spoiler Option 3", 2, false)
-	wing:AddChoice("Remove Spoiler", 0, false)
 	wing.OnSelect = function( panel, index, value )
 		
 		wings = index
@@ -775,7 +729,6 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wheels:SetSize(200,100)
 	wheels:SetValue("Wheels:")
 	wheels:AddChoice("Tire Option 1", 0, false)
-	wheels:AddChoice("Tire Option 2", 1, false)
 	wheels.OnSelect = function( panel, index, value )
 		wheelz = index
 		prev.Entity:SetBodygroup(8,index)
@@ -791,15 +744,15 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	fbumper:SetPos(450,150)
 	fbumper:SetSize(200,100)
 	fbumper:SetValue("Front Bumpers:")
-	fbumper:AddChoice("Bumper 2", 0, false)
-	fbumper:AddChoice("Bumper 3", 1, false)
-	fbumper:AddChoice("Bumper 4", 2, false)
-	fbumper:AddChoice("Bumper 5", 3, false)
-	fbumper:AddChoice("Bumper 6", 4, false)
-	fbumper:AddChoice("Bumper 7", 5, false)
+	fbumper:AddChoice("Bumper 1", 0, false)
+	fbumper:AddChoice("Bumper 2", 1, false)
+	fbumper:AddChoice("Bumper 3", 2, false)
+	fbumper:AddChoice("Bumper 4", 3, false)
+	fbumper:AddChoice("Bumper 5", 4, false)
+	fbumper:AddChoice("Bumper 6", 5, false)
 	fbumper.OnSelect = function( panel, index, value )
 		frontbump = index - 2
-		prev.Entity:SetBodygroup(3,index - 1)
+		prev.Entity:SetBodygroup(3,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -809,15 +762,15 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	bbumper:SetPos(675,150)
 	bbumper:SetSize(200,100)
 	bbumper:SetValue("Rear Bumpers:")
-	bbumper:AddChoice("Rear Bumper 2", 0, false)
-	bbumper:AddChoice("Rear Bumper 3", 1, false)
-	bbumper:AddChoice("Rear Bumper 4", 2, false)
-	bbumper:AddChoice("Rear Bumper 5", 3, false)
-	bbumper:AddChoice("Rear Bumper 6", 4, false)
-	bbumper:AddChoice("Rear Bumper 7", 5, false)
+	bbumper:AddChoice("Rear Bumper 1", 0, false)
+	bbumper:AddChoice("Rear Bumper 2", 1, false)
+	bbumper:AddChoice("Rear Bumper 3", 2, false)
+	bbumper:AddChoice("Rear Bumper 4", 3, false)
+	bbumper:AddChoice("Rear Bumper 5", 4, false)
+	bbumper:AddChoice("Rear Bumper 6", 5, false)
 	bbumper.OnSelect = function( panel, index, value )
 		rearbump = index
-		prev.Entity:SetBodygroup(4,index - 1)
+		prev.Entity:SetBodygroup(4,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -827,15 +780,15 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	skirt:SetPos(450,250)
 	skirt:SetSize(200,100)
 	skirt:SetValue("Skirts:")
-	skirt:AddChoice("Skirt Option 2", 0, false)
-	skirt:AddChoice("Skirt Option 3", 1, false)
-	skirt:AddChoice("Skirt Option 4", 2, false)
-	skirt:AddChoice("Skirt Option 5", 3, false)
-	skirt:AddChoice("Skirt Option 6", 4, false)
+	skirt:AddChoice("Skirt Option 1", 0, false)
+	skirt:AddChoice("Skirt Option 2", 1, false)
+	skirt:AddChoice("Skirt Option 3", 2, false)
+	skirt:AddChoice("Skirt Option 4", 3, false)
+	skirt:AddChoice("Skirt Option 5", 4, false)
 	skirt.OnSelect = function( panel, index, value )
 		skirts = index
 		total = 1000
-		prev.Entity:SetBodygroup(5,index - 1)
+		prev.Entity:SetBodygroup(5,index)
 		
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -849,7 +802,7 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	hood:AddChoice("Hood Option 3", 1, false)
 	hood.OnSelect = function( panel, index, value )
 		hoods = index
-		prev.Entity:SetBodygroup(6,index - 1)
+		prev.Entity:SetBodygroup(6,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -867,7 +820,7 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wing.OnSelect = function( panel, index, value )
 		
 		wings = index
-		prev.Entity:SetBodygroup(7,index - 1)
+		prev.Entity:SetBodygroup(7,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -881,7 +834,7 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wheels:AddChoice("Tire Option 3", 1, false)
 	wheels.OnSelect = function( panel, index, value )
 		wheelz = index
-		prev.Entity:SetBodygroup(8,index - 1)
+		prev.Entity:SetBodygroup(8,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -895,12 +848,12 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	fbumper:SetPos(450,150)
 	fbumper:SetSize(200,100)
 	fbumper:SetValue("Front Bumpers:")
-	fbumper:AddChoice("Bumper 2", 0, false)
-	fbumper:AddChoice("Bumper 3", 1, false)
-	fbumper:AddChoice("Bumper 4", 2, false)
+	fbumper:AddChoice("Bumper 1", 0, false)
+	fbumper:AddChoice("Bumper 2", 1, false)
+	fbumper:AddChoice("Bumper 3", 2, false)
 	fbumper.OnSelect = function( panel, index, value )
 		frontbump = index
-		prev.Entity:SetBodygroup(3,index - 1)
+		prev.Entity:SetBodygroup(3,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -910,11 +863,11 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	bbumper:SetPos(675,150)
 	bbumper:SetSize(200,100)
 	bbumper:SetValue("Rear Bumpers:")
-	bbumper:AddChoice("Rear Bumper 2", 0, false)
-	bbumper:AddChoice("Rear Bumper 3", 1, false)
+	bbumper:AddChoice("Rear Bumper 1", 0, false)
+	bbumper:AddChoice("Rear Bumper 2", 1, false)
 	bbumper.OnSelect = function( panel, index, value )
 		rearbump = index
-		prev.Entity:SetBodygroup(4,index - 1)
+		prev.Entity:SetBodygroup(4,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -929,22 +882,8 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	skirt.OnSelect = function( panel, index, value )
 		skirts = index
 		total = 1000
-		prev.Entity:SetBodygroup(5,index - 1)
+		prev.Entity:SetBodygroup(5,index)
 		
-		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
-	end
-	
-	local roll = vgui.Create( "DComboBox", customize )
-	
-	roll:SetPos(450,350)
-	roll:SetSize(200,100)
-	roll:SetValue("Rollcages:")
-	roll:AddChoice("Rollcage Off", 0, false)
-	roll:AddChoice("Rollcage On", 1, false)
-	roll.OnSelect = function( panel, index, value )
-		rollcage = index
-		prev.Entity:SetBodygroup(7,index - 1)
-		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
 	
@@ -953,29 +892,27 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wing:SetPos(675,250)
 	wing:SetSize(200,100)
 	wing:SetValue("Spoilers:")
-	wing:AddChoice("Remove Spoiler", 0, false)
 	wing:AddChoice("Spoiler Option 1", 0, false)	
 	wing:AddChoice("Spoiler Option 2", 1, false)
 	wing:AddChoice("Spoiler Option 3", 2, false)
 	wing.OnSelect = function( panel, index, value )
 		
 		wings = index
-		prev.Entity:SetBodygroup(6,index - 1)
+		prev.Entity:SetBodygroup(6,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
 	
 	local wheels = vgui.Create( "DComboBox", customize )
 	
-	wheels:SetPos(675,350)
+	wheels:SetPos(450,350)
 	wheels:SetSize(200,100)
 	wheels:SetValue("Wheels:")
 	wheels:AddChoice("Tire Option 1", 0, false)
 	wheels:AddChoice("Tire Option 2", 1, false)
-	wheels:AddChoice("Tire Option 3", 2, false)
 	wheels.OnSelect = function( panel, index, value )
 		wheelz = index
-		prev.Entity:SetBodygroup(8,index - 1)
+		prev.Entity:SetBodygroup(8,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -989,12 +926,11 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	fbumper:SetSize(200,100)
 	fbumper:SetValue("Front Bumpers:")
 	fbumper:AddChoice("Bumper 1", 0, false)
-	fbumper:AddChoice("Bumper 2", 0, false)
-	fbumper:AddChoice("Bumper 3", 1, false)
-	fbumper:AddChoice("Bumper 4", 2, false)
+	fbumper:AddChoice("Bumper 2", 1, false)
+	fbumper:AddChoice("Bumper 3", 2, false)
 	fbumper.OnSelect = function( panel, index, value )
 		frontbump = index
-		prev.Entity:SetBodygroup(3,index - 1)
+		prev.Entity:SetBodygroup(3,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -1005,11 +941,9 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	skirt:SetSize(200,100)
 	skirt:SetValue("Skirts:")
 	skirt:AddChoice("Skirt Option 1", 0, false)
-	skirt:AddChoice("Skirt Option 2", 1, false)
-	skirt:AddChoice("Skirt Option 3", 2, false)
 	skirt.OnSelect = function( panel, index, value )
 		total = 1000
-		prev.Entity:SetBodygroup(4,index - 1)
+		prev.Entity:SetBodygroup(4,index)
 		skirts = index
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -1020,11 +954,10 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	bbumper:SetSize(200,100)
 	bbumper:SetValue("Rear Bumpers:")
 	bbumper:AddChoice("Rear Bumper 1", 0, false)
-	bbumper:AddChoice("Rear Bumper 2", 0, false)
-	bbumper:AddChoice("Rear Bumper 3", 1, false)
+	bbumper:AddChoice("Rear Bumper 2", 1, false)
 	bbumper.OnSelect = function( panel, index, value )
 		rearbump = index
-		prev.Entity:SetBodygroup(5,index - 1)
+		prev.Entity:SetBodygroup(5,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -1034,12 +967,11 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wing:SetPos(450,350)
 	wing:SetSize(200,100)
 	wing:SetValue("Spoilers:")
-	wing:AddChoice("Remove Spoiler", 0, false)
 	wing:AddChoice("Spoiler Option 1", 0, false)
 	wing.OnSelect = function( panel, index, value )
 		
-		wings = index - 1
-		prev.Entity:SetBodygroup(6,index - 1)
+		wings = index
+		prev.Entity:SetBodygroup(6,index)
 		total = 1000
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
@@ -1055,8 +987,11 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	
 
 	function colorbutton:OnMousePressed()
-		local coloris = Color(GetConVarNumber( "ColorRed" ), GetConVarNumber("ColorGreen"), GetConVarNumber("ColorBlue"), 255)
+		local coloris = Color(GetConVarNumber( "ColorRed" ), GetConVarNumber("ColorGreen"), GetConVarNumber("ColorBlue"))
 		net.Start("color")
+		net.WriteInt(GetConVarNumber("ColorRed"), 32)
+		net.WriteInt(GetConVarNumber("ColorGreen"), 31)
+		net.WriteInt(GetConVarNumber("ColorBlue"), 30)
 		net.WriteColor(coloris)
 		net.SendToServer()
 		
@@ -1075,29 +1010,35 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	
 	function buycustomsButton:DoClick() 
 	if number == 0 then
-	avg = ("00" .. frontbump - 2 .. rearbump .. skirts .. hoods  .. "0" .. wings  .. wheelz )
+	avg = ("000" .. frontbump .. rearbump .. skirts .. hoods  .. "0" .. wings  .. wheelz )
 	end
 	if number == 1 then
-	avg = ("00" .. frontbump  .. rearbump  .. hoods  .. skirts  .. wings  .. wheelz )
+	avg = ("000" .. frontbump  .. rearbump  .. hoods  .. skirts  .. wings  .. wheelz )
 	end
 	if number == 2 then
-	avg = ("00" .. frontbump  .. rearbump  .. hoods  .. skirts  .. wings  .. "0" .. wheelz )
+	avg = ("000" .. frontbump  .. rearbump  .. hoods  .. skirts  .. wings  .. "0" .. wheelz )
 	end
 	if number == 3 then
-	avg = ("00" .. frontbump  .. rearbump  .. skirts  .. hoods  .. wings  .. wheelz )
+	avg = ("000" .. frontbump  .. rearbump  .. skirts  .. hoods  .. wings  .. wheelz )
 	end
 	if number == 4 then
-	avg = ("00" .. frontbump  .. rearbump  .. skirts  .. hoods  .. wings  .. wheelz )
+	avg = ("000" .. frontbump  .. rearbump  .. skirts  .. hoods  .. wings  .. wheelz )
 	end
 	if number == 5 then
-	avg = ("00" .. frontbump  .. rearbump  .. skirts  .. wings  .. "0" .. wheelz )
+	avg = ("000" .. frontbump  .. rearbump  .. skirts  .. wings  .. "0" .. wheelz )
 	end
 	if number == 6 then
-	avg = ("00" .. frontbump  .. skirts  .. rearbump  .. wings  )
+	avg = ("000" .. frontbump  .. skirts  .. rearbump  .. wings  )
 	end
 	net.Start("buyCustoms")
 	net.WriteString(avg)
 	net.SendToServer()
+	frontbump = 0
+	rearbump = 0
+	skirts = 0
+	hoods = 0
+	wings = 0
+	wheelz = 0
 	end
 	
 	function customizecarsbutton:OnMousePressed()

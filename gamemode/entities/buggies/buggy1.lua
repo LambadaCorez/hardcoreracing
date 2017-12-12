@@ -29,6 +29,7 @@ keyvalues[6]={keyvalue="scripts/vehicles/tdmcars/mitsu_eclipgt.txt"}
 		car:Spawn()
 		car:SetBodyGroups(bodygroups)
 		car:SetColor(color)
+		print("bodygroups sent over: " .. bodygroups)
 		ply:SetPos(loc)
 		ply:EnterVehicle(car)
 	end 

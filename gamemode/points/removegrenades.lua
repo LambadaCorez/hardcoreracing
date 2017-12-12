@@ -7,7 +7,7 @@ function getRidOfGrenades()
 		
 		if v:IsPlayer() then
 		
-		v:StripWeapons()
+		v:StripWeapon("weapon_frag")
 		
 		end
 	end
