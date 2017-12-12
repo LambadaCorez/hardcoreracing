@@ -12,6 +12,7 @@ music[5] = {links="https://lambadacorez.github.io/music/track6.mp3"}
 music[6] = {links="https://lambadacorez.github.io/music/track7.mp3"}
 music[7] = {links="https://lambadacorez.github.io/music/track8.mp3"}
 music[8] = {links="https://lambadacorez.github.io/music/track9.mp3"}
+music[9] = {links="https://lambadacorez.github.io/music/track10.mp3"}
 
 function musicLogic()
 local ply = LocalPlayer()
@@ -46,7 +47,7 @@ local ply = LocalPlayer()
 
     if raceactive and var == 0 and (vehicleclass != "prop_vehicle_airboat") then
       var = 1
-      sound.PlayURL( music[math.random(0,8)].links, "", function( station )
+      sound.PlayURL( music[math.random(0,9)].links, "", function( station )
 
 
       if ( IsValid( station ) ) and vehicleclass !="prop_vehicle_airboat" then
