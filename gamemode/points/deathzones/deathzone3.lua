@@ -1,7 +1,7 @@
 function deathZone3()
 
 
-	for k, v in pairs(ents.FindInBox( Vector(-5946.562012, 1173.000122, 976.787598), Vector(-8131.595215, 5189.934570, 990.366028) ) ) do
+	for k, v in pairs(ents.FindInBox( Vector(-16000.822266, 2683.541016, -1566.066528), Vector(15546.155273, -15624.016602, -1214.578979) ) ) do
 
 		
 		if v:IsPlayer() and v:Alive() then

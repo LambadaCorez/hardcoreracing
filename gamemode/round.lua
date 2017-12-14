@@ -39,10 +39,10 @@ pregame = true
 		
 		timer.Create( "roundstart", 1, time, function()
 		pregame = false
-		if time != 1 then
+		if time != 2 then
 		PrintMessage(HUD_PRINTCENTER, "Race starting in " .. time - 1 .. " seconds!" )
 		else
-		PrintMessage(HUD_PRINTCENTER, "Race starting in 1 second!" )
+		PrintMessage(HUD_PRINTCENTER, "Race starting in " .. time - 1 .. " second!" )
 		end
 		time = time - 1
 		
@@ -76,7 +76,9 @@ end
 function RoundEndCheck()
 	seconds = math.Clamp(20,0,20)
 	netbool = false
+	timer.Create("repeatMessage", 1, 3, function()
 	PrintMessage(HUD_PRINTCENTER,"RACE STARTED! Press F4 quickly to get in your car! Be fast, you only have 20 seconds!")
+	end)
 		timer.Create("10Seconds", 1, seconds, function()
 			seconds = seconds - 1
 			netbool = true
@@ -104,6 +106,17 @@ function RoundEndCheck()
 				net.Start("10secondBool")
 				net.WriteBool(netbool)
 				net.Broadcast()
+			
+			local localTime = 2
+				
+			timer.Start("checkforPeople", 1, localTime, function()
+			
+			localTime = localTime - 1
+			
+			if localTime == 0 then
+			timer.Remove("checkforPeople")
+			end
+			end)
 			for k, v in pairs(team.GetPlayers( 0 )) do
 			if v:InVehicle() == false then
 			v:Kill()
@@ -141,8 +154,10 @@ function RoundEndCheck()
 			if racersAlive == 1 then
 			for k, v in pairs(team.GetPlayers( 0 )) do
 			if v:Alive() then
+			
 			v:SetNWInt("money", v:GetNWInt("money") + 500)
 			EndRound("Every racer but " .. v:Nick() .." is dead: " .. v:Nick())
+			
 			end
 			end
 			end
@@ -178,7 +193,7 @@ function EndRound(winners)
 	
 		for _, v in pairs(player.GetAll() ) do
 			if ( v:Alive() ) then
-				v:StripWeapons()
+				v:StripWeapon("weapon_frag")
 				
 			end
 		

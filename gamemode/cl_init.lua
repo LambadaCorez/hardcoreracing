@@ -4,7 +4,24 @@ include("shared.lua")
 include("logo.lua")
 include("cl_music.lua")
 include("customizationmenu.lua")
+musicActive = true
 
+
+concommand.Add("race_music",function(ply, cmd, args)
+
+local validEntries = {"0", "1"}
+
+for k, v in pairs(validEntries) do
+		if args[1] == "0" then
+			print("Music disabled!")
+			musicActive = false
+		end
+		if args[1] == "1" then
+		print("Music activated!")
+			musicActive = true
+		end
+end
+end)
 
 local screenx = ScrW()/2
 
@@ -72,7 +89,13 @@ surface.CreateFont("RacingHUDBold", {
 	   outline = true,
        font = "Roboto Black"})
 
-hook.Add( "Think", "includeMusic", musicLogic)
+hook.Add( "Think", "includeMusic", function()
+
+	if musicActive then
+	musicLogic()
+	else
+	end
+end)
 
 
 function hoveringNames()

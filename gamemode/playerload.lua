@@ -19,7 +19,7 @@ function StatLoad( ply )
 	end
 	
 	if ply:GetPData("color") == nil then
-		ply:SetPData("color", Color(0,0,0,255))
+		ply:SetPData("color", "colorSet")
 		ply:SetNWInt("colorR", 0)
 		ply:SetNWInt("colorG", 0)
 		ply:SetNWInt("colorB", 0)
@@ -28,7 +28,6 @@ function StatLoad( ply )
 		ply:SetNWInt("colorG", ply:GetPData("colorG"))
 		ply:SetNWInt("colorB", ply:GetPData("colorB"))
 		ply:SetNWString("color", ply:GetPData("color"))
-		print(tostring(ply:GetNWString("color")))
 	end
 if ply:GetPData("pGSX") == nil then
 	ply:SetPData("pGSX", "00000000")

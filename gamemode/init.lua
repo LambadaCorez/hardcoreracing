@@ -34,6 +34,10 @@ include("playerload.lua")
 include("points/deathzones/deathzone1.lua")
 include("points/deathzones/deathzone2.lua")
 include("points/deathzones/deathzone3.lua")
+include("points/deathzones/deathzone4.lua")
+include("points/deathzones/spectators/dzspec1.lua")
+include("points/deathzones/spectators/dzspec2.lua")
+include("points/deathzones/spectators/dzspec3.lua")
 include("points/removegrenades.lua")
 
 include("entities/props/fence.lua")
@@ -177,9 +181,11 @@ pregame = true
 		end
 		
 		ply:SetNWInt("money", ply:GetNWInt("money") - 1000)
-		end
-		print(ply.vehicleConfig)
+		
 		ply:ChatPrint("Car customization set! Cost: $1000")
+		end
+		
+		
 		
 		
 	end)
@@ -217,14 +223,13 @@ pregame = true
 		
 		if tonumber(ply:GetNWInt("money")) >= 100 then
 			ply:ChatPrint("Car color switched! Cost: $100")
-			ply.vehicleColor = net.ReadColor()
 			ply.colorR = net.ReadInt(32)
 			ply.colorG = net.ReadInt(31)
 			ply.colorB = net.ReadInt(30)
 			ply:SetNWInt("colorR", ply.colorR)
 			ply:SetNWInt("colorG", ply.colorG)
 			ply:SetNWInt("colorB", ply.colorB)
-			ply:SetNWString("color", ply.vehicleColor)
+			ply:SetNWString("color", "colorSet")
 			ply:SetNWInt("money", ply:GetNWInt("money") - 100)
 		else
 		
@@ -282,6 +287,8 @@ end )
 concommand.Add("r_spawn", function()
 
 	SpawnBombies(Vector(-13504.298828, -12083.591797, 530.031250))
+	SpawnBombies(Vector(14006.583984, -5438.270508, 530.031250))
+	SpawnBombies(Vector(169.519257, 2663.214600, 1310.031250))
  
 end)
 	
@@ -289,10 +296,33 @@ end)
 			deathZone1()
 			deathZone2()
 			deathZone3()
+			deathZone4()
+			deathZoneSpec1()
+			deathZoneSpec2()
+			deathZoneSpec3()
 	end)
 	
 	function GM:Initialize()
-	
+		timer.Create("repeatMOTD", 400, 0, function()
+		
+			for k, v in pairs(player.GetAll()) do
+			
+			local num = math.random(0,2)
+			
+			if num == 0 then
+				chat.AddText( Color(128,0,255),"[SERVER] If the game hasn't started yet, type ", Color(100,100,255),"!start ", Color(128,0,255), "into chat to get the ball rolling!")
+			end
+			
+			if num == 1 then
+				chat.AddText( Color(128,0,255),"You can customize any aspect of your car by pressing ", Color(100,100,255),"F2", Color(128,0,255), "!")
+			end
+			
+			if num == 2 then
+				chat.AddText( Color(128,0,255),"Want more money? ", Color(100,100,255),"Complete races to get some!")
+			end
+			end
+		
+		end)
 	timer.Create("waitingTime", 1, 1, function()
 		SpawnFence()
 		SpawnFence2()
@@ -352,7 +382,7 @@ function GM:PlayerSpawn( ply )
 		ply:SetNoCollideWithTeammates(true)
 		ply:GodEnable()
 		ply:Give("weapon_stunstick")
-		ply:Give("weapon_extinguisher")
+		ply:Give("weapon_bugbait")
 
 end
 
@@ -532,6 +562,18 @@ function GM:Think()
 		end
 	end
 	
+	if racersFinished == racersAlive and racerSend == 0 then
+			if racerSecond == nil then
+			racerSecond = "Nobody"
+			end
+			if raceThird == nil then
+			raceThird = "Nobody"
+			end
+			EndRound(raceWinner .." won 1st, " .. raceSecond .." won 2nd, and " .. raceThird .. " won 3rd.")
+			racerSend = 1
+			end
+	
+	
 end
 
 function GM:CanPlayerSuicide( play )
@@ -622,19 +664,11 @@ function checkPoint3()
 			v:SetNWInt("money", v:GetNWInt("money") + 100)
 			v.alreadyWinner = 1
 			end
-			
-			if racersFinished == racersAlive and racerSend == 0 then
-			if racerSecond == nil then
-			racerSecond = "Nobody"
-			end
-			if raceThird == nil then
-			raceThird = "Nobody"
-			end
-			EndRound(raceWinner .." won 1st, " .. raceSecond .." won 2nd, and " .. raceThird .. " won 3rd.")
-			racerSend = 1
-			end
 
 		end
 	
 	end
 end
+
+
+
