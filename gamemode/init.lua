@@ -561,8 +561,8 @@ function GM:Think()
 			v.alreadyWinner = 0
 		end
 	end
-	
-	if racersFinished == racersAlive and racerSend == 0 then
+	if raceactive then
+		if racersFinished == racersAlive and racerSend == 0 then
 			if racerSecond == nil then
 			racerSecond = "Nobody"
 			end
@@ -571,8 +571,8 @@ function GM:Think()
 			end
 			EndRound(raceWinner .." won 1st, " .. raceSecond .." won 2nd, and " .. raceThird .. " won 3rd.")
 			racerSend = 1
-			end
-	
+		end
+	end
 	
 end
 
