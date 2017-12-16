@@ -20,16 +20,17 @@ keyvalues[4]={keyvalue="scripts/vehicles/tdmcars/skyline_r34.txt"}
 keyvalues[5]={keyvalue="scripts/vehicles/tdmcars/370z.txt"}
 keyvalues[6]={keyvalue="scripts/vehicles/tdmcars/mitsu_eclipgt.txt"}		
 		
-		function SpawnCar1(ply,color,model,loc,bodygroups)
+		function SpawnCar1(ply,color,model,loc,rotation,bodygroups)
 		local car = ents.Create("prop_vehicle_jeep_old")
 		car:SetModel(cars[model].car)
 		car:SetKeyValue("vehiclescript",keyvalues[model].keyvalue)
 		car:SetPos(loc)
-		car:SetAngles(Angle(0,90,0))
+		car:SetAngles(rotation)
 		car:Spawn()
 		car:SetBodyGroups(bodygroups)
 		car:SetColor(color)
-		print("bodygroups sent over: " .. bodygroups)
-		ply:SetPos(loc)
+		
 		ply:EnterVehicle(car)
+
+		print("bodygroups sent over: " .. bodygroups)
 	end 

@@ -1,9 +1,17 @@
 --init
 
+carSpawns = {}
+
+checkpoints = {}
+
+SetGlobalInt("AllCheckpoints", 0)
+
 resource.AddFile("materials/layer/race.vmt")
 resource.AddFile("music/export.mp3")
 resource.AddWorkshop( 941042491 )
 
+	local sc = 0
+ 
 util.AddNetworkString("race_active")
 util.AddNetworkString("race_timer")
 util.AddNetworkString("laps")
@@ -17,6 +25,7 @@ util.AddNetworkString("openCustomMenu")
 util.AddNetworkString("color")
 util.AddNetworkString("buyCar")
 util.AddNetworkString("buyCustoms")
+util.AddNetworkString("totalLapNum")
 
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
@@ -89,21 +98,8 @@ playerspawn[6] = Vector( 1036.088379, 11700.810547, 832.031250)
 playerspawn[7] = Vector(1386.621826, 11910.675781, 832.031250)	
 playerspawn[8] = Vector(1711.957031, 11714.308594, 832.031250)
 
-playerracespawn = {}
 
-playerracespawn[0] = Vector(-900.486938, 12316.545898, 64.031250)
-playerracespawn[1] = Vector(-400.486938, 12316.545898, 64.031250)
-playerracespawn[2] = Vector(100.486938, 12316.545898, 64.031250)
-playerracespawn[3] = Vector(600.486938, 12316.545898, 64.031250)
-playerracespawn[4] = Vector(600.486938, 12316.545898, 64.031250)
-playerracespawn[5] = Vector(-1095.211792, 12495.215820, 64.031250)
-playerracespawn[6] = Vector(-594.711609, 12531.541016, 64.031250)
-playerracespawn[7] = Vector(-94.711609, 12531.541016, 64.031250)	
-playerracespawn[8] = Vector(406.711609, 12531.541016, 64.031250)	
-playerracespawn[9] = Vector(-700.731750, 11994.644531, 64.031250)
-playerracespawn[10] = Vector(-500.731750, 11994.644531, 64.031250)
-playerracespawn[11] = Vector(-500.731750, 11994.644531, 64.031250)
-
+maxRacers = 0
 
 cars = {}
 
@@ -126,10 +122,31 @@ carmoney[4] = {cost = 8000}
 carmoney[5] = {cost = 4000}
 carmoney[6] = {cost = 3000}
 
-local racecarlocation = 0
 
+keyvalues = {}
+
+keyvalues[0]={keyvalue="scripts/vehicles/tdmcars/mit_eclipsegsx.txt"}
+keyvalues[1]={keyvalue="scripts/vehicles/tdmcars/nissilvs15.txt"}
+keyvalues[2]={keyvalue="scripts/vehicles/tdmcars/mitsu_evo8.txt"}
+keyvalues[3]={keyvalue="scripts/vehicles/tdmcars/mitsu_evox.txt"}
+keyvalues[4]={keyvalue="scripts/vehicles/tdmcars/skyline_r34.txt"}		
+keyvalues[5]={keyvalue="scripts/vehicles/tdmcars/370z.txt"}
+keyvalues[6]={keyvalue="scripts/vehicles/tdmcars/mitsu_eclipgt.txt"}		
+		
+
+
+
+
+local carSpawnIn = 0
+
+if IsValid(carSpawns[1]) then
+
+carspawn = carSpawns[1]:GetPos()
+
+end
 raceactive = false
 pregame = true
+sc = 1
 
 	net.Receive("buyCustoms", function( len, ply )
 		
@@ -303,27 +320,9 @@ end)
 	end)
 	
 	function GM:Initialize()
-		timer.Create("repeatMOTD", 400, 0, function()
-		
-			for k, v in pairs(player.GetAll()) do
-			
-			local num = math.random(0,2)
-			
-			if num == 0 then
-				chat.AddText( Color(128,0,255),"[SERVER] If the game hasn't started yet, type ", Color(100,100,255),"!start ", Color(128,0,255), "into chat to get the ball rolling!")
-			end
-			
-			if num == 1 then
-				chat.AddText( Color(128,0,255),"You can customize any aspect of your car by pressing ", Color(100,100,255),"F2", Color(128,0,255), "!")
-			end
-			
-			if num == 2 then
-				chat.AddText( Color(128,0,255),"Want more money? ", Color(100,100,255),"Complete races to get some!")
-			end
-			end
-		
-		end)
+	
 	timer.Create("waitingTime", 1, 1, function()
+		SetGlobalInt("AllCheckpoints", #checkpoints)
 		SpawnFence()
 		SpawnFence2()
 		SpawnDemoDurbyFence1()
@@ -353,8 +352,12 @@ end)
 	end
 
 	function GM:PlayerInitialSpawn( ply )
+		net.Start("totalLapNum")
+		net.WriteInt(#checkpoints, 32)
+		net.Broadcast()
 		PrintMessage( HUD_PRINTTALK, ply:Nick() .. " has spawned in!" )
-		
+		PrintMessage( HUD_PRINTTALK,"Car Spawns:" .. #carSpawns )
+		PrintMessage( HUD_PRINTTALK,"Checkpoints:" .. #checkpoints )
 		StatLoad( ply )
 		
 	end
@@ -376,8 +379,7 @@ end)
 	end
 	
 function GM:PlayerSpawn( ply )	
-		
-		spawnServer(ply)
+		spawnServer( ply )
 		ply:AllowFlashlight( false )
 		ply:SetNoCollideWithTeammates(true)
 		ply:GodEnable()
@@ -415,24 +417,12 @@ end
 function GM:PlayerDeathSound()
 	return true
 end
-	
-	
-function GM:PlayerSetHandsModel( ply, ent )
-
-	local simplemodel = player_manager.TranslateToPlayerModelName( ply:GetModel() )
-	local info = player_manager.TranslatePlayerHands( simplemodel )
-	if ( info ) then
-		ent:SetModel( info.model )
-		ent:SetSkin( info.skin )
-		ent:SetBodyGroups( info.body )
-	end
-end
 
 function spawnServer(ply)
 
 	if ply:Alive() then
 		ply:SetGamemodeTeam(1)
-		ply:SetPos(playerspawn[math.random(0,8)])
+		
 	end
 end
 
@@ -464,12 +454,10 @@ function GM:ShowSpare1( ply )
 	end
 	
 function GM:ShowSpare2( ply )
-	if racecarlocation == nil then
-		racecarlocation = 0
-	end
-	
-	
-	
+
+	cspawn = carSpawns[sc]:GetPos()
+	cangle = carSpawns[sc]:GetAngles()
+
 local vehiCheck = tonumber(ply:GetNWInt("pCar"))
 
 local colorR = ply:GetNWInt("colorR")
@@ -477,7 +465,7 @@ local colorG = ply:GetNWInt("colorG")
 local colorB = ply:GetNWInt("colorB")
 	
 if vehiCheck == 0 then
-	customVar = ply:GetNWString("pGSX")
+	customVar = ply:GetNWString("pGSX") 
 end
 
 if vehiCheck == 1 then
@@ -491,7 +479,7 @@ if vehiCheck == 3 then
 end
 if vehiCheck == 4 then
 	customVar = ply:GetNWString("pR34")
-end
+end 
 if vehiCheck == 5 then
 	customVar = ply:GetNWString("p370")
 end
@@ -504,19 +492,23 @@ customVar = 0
 end
 	
 	if (netbool) then
-		if racercarlocation != 16 and ply.carSpawn == 0 then
 		
-		SpawnCar1(ply,Color(colorR,colorG,colorB,255),tonumber(ply:GetNWInt("pCar")),racecarspawns[racecarlocation], customVar)
 		
-		spawnRace( ply, ply.vehicleNumber )
+	
+		if carSpawnIn != table.Count(carSpawns) + 1 and ply.carSpawn == 0 and ply:Alive() then
+		
+		SpawnCar1(ply,Color(colorR,colorG,colorB,255),tonumber(ply:GetNWInt("pCar")),cspawn,cangle,customVar)
+		
+		spawnRace(ply)
 		
 		ply:StripWeapons()
 		
-		ply.vehicleNumber = racecarlocation
-		
-		racecarlocation = racecarlocation + 1
+		carSpawnIn = carSpawnIn + 1
 		
 		ply.carSpawn = 1
+		
+		sc = sc + 1
+
 		end
 	end
 end
@@ -539,13 +531,11 @@ end
   
 function GM:Think()
 	handBrake()
-	checkPoint1()
-	checkPoint2()
-	checkPoint3()
 	getRidOfGrenades()
 	
 	for k, v in pairs(player.GetAll()) do
 		if !raceactive then
+			sc = 1 
 			v.totalLaps = 1
 			v.boolValue = false
 			raceWinner = nil
@@ -556,12 +546,55 @@ function GM:Think()
 			v.stopCheck = 0
 			racerSend = 0
 			v.killPossible = true
-			racecarlocation = 0
+			carSpawnIn = 0
 			v.carSpawn = 0
 			v.alreadyWinner = 0
+			v.alreadyCrossed = 0
+			v:SetNWInt("TotalCP", 0)
 		end
 	end
+	
 	if raceactive then
+		
+		for k, v in pairs(team.GetPlayers( 0 )) do
+		if v:GetNWInt("TotalCP") == #checkpoints then
+			if v.alreadyCrossed == 0 then
+				racersFinished = racersFinished + 1
+				v.alreadyCrossed = 1
+			end
+		if v.stopCheck == 0 then
+			v:GetVehicle():Fire("TurnOff")	
+			v:SetNWInt("money", v:GetNWInt("money") + 100)
+			v.stopCheck = 1
+			end
+			if raceWinner == nil and v.alreadyWinner == 0 then
+			raceWinner = v:Nick()
+			print(raceWinner)
+			print("racers finished: " .. racersFinished)
+			print("racers total: " .. racersAlive)
+			print("racer send: " .. racerSend)
+			v:SetNWInt("money", v:GetNWInt("money") + 400)
+			v.alreadyWinner = 1 
+			elseif raceSecond == nil and raceWinner != nil and v.alreadyWinner == 0 then
+			raceSecond = v:Nick()
+			print(raceSecond)
+			print("racers finished: " .. racersFinished)
+			print("racers total: " .. racersAlive)
+			print("racer send: " .. racerSend)
+			v:SetNWInt("money", v:GetNWInt("money") + 200)
+			v.alreadyWinner = 1
+			elseif raceThird == nil and raceWinner != nil and raceSecond != nil and v.alreadyWinner == 0 then
+			raceThird = v:Nick()
+			print(raceThird)
+			print("racers finished: " .. racersFinished)
+			print("racers total: " .. racersAlive)
+			print("racer send: " .. racerSend)
+			v:SetNWInt("money", v:GetNWInt("money") + 100)
+			v.alreadyWinner = 1
+			end
+		end
+	end
+		
 		if racersFinished == racersAlive and racerSend == 0 then
 			if racerSecond == nil then
 			racerSecond = "Nobody"
@@ -594,81 +627,6 @@ function handBrake()
     end
 end
 
-function checkPoint1()
-
-	for k, v in pairs(ents.FindInBox( Vector(-1024.419922, 12541.967773, -10.330276), Vector(-1086.406616, 13375.701172, 373.506012) ) ) do
-	
-		if v:IsPlayer() and raceactive then
-			v.totalLaps = 1
-			
-			net.Start("laps")
-			net.WriteInt(1,32)
-			net.Send(v)
-		
-		end
-	
-	end
-
-end
-
-function checkPoint2()
-
-	for k, v in pairs(ents.FindInBox( Vector(6359.059570, -13192.848633, -1143.905029), Vector(6742.701660, -14187.796875, -561.807434) ) ) do
-	
-		if v:IsPlayer() and raceactive then
-			v.totalLaps = 2
-			
-			v.boolValue = true
-			
-			net.Start("laps") 
-			net.WriteInt(2,32)
-			net.Send(v)
-		
-		end
-	
-	end
-	
-end
-
-function checkPoint3()
-
-	for k, v in pairs(ents.FindInBox( Vector(7718.183105, 12451.620117, -34.898705), Vector(7516.244629, 13552.686523, 631.709229) ) ) do
-	print("racers alive: " .. racersAlive)
-	print("racers finished: " .. racersFinished)
-		if v:IsPlayer() and v.boolValue == true then
-			if v.racersChecked == 0 then
-				racersFinished = racersFinished + 1
-				v.killPossible = false
-				v.racersChecked = 1
-			end
-			v.totalLaps = 3
-			
-			net.Start("laps")
-			net.WriteInt(3,32)
-			net.Send(v)
-			if v.stopCheck == 0 then
-			v:GetVehicle():Fire("TurnOff")	
-			v:SetNWInt("money", v:GetNWInt("money") + 100)
-			v.stopCheck = 1
-			end
-			if raceWinner == nil and v.alreadyWinner == 0 then
-			raceWinner = v:Nick()
-			v:SetNWInt("money", v:GetNWInt("money") + 400)
-			v.alreadyWinner = 1 
-			elseif raceSecond == nil and raceWinner != nil and v.alreadyWinner == 0 then
-			raceSecond = v:Nick()
-			v:SetNWInt("money", v:GetNWInt("money") + 200)
-			v.alreadyWinner = 1
-			elseif raceThird == nil and raceWinner != nil and raceSecond != nil and v.alreadyWinner == 0 then
-			raceThird = v:Nick()
-			v:SetNWInt("money", v:GetNWInt("money") + 100)
-			v.alreadyWinner = 1
-			end
-
-		end
-	
-	end
-end
 
 
 

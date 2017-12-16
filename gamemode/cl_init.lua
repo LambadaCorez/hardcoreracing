@@ -6,6 +6,13 @@ include("cl_music.lua")
 include("customizationmenu.lua")
 musicActive = true
 
+net.Receive("totalLapNum", function( len, pl )
+
+	totalLaps = net.ReadInt( 32 )
+	print(totalLaps)
+	
+	
+end)
 
 concommand.Add("race_music",function(ply, cmd, args)
 
@@ -89,14 +96,6 @@ surface.CreateFont("RacingHUDBold", {
 	   outline = true,
        font = "Roboto Black"})
 
-hook.Add( "Think", "includeMusic", function()
-
-	if musicActive then
-	musicLogic()
-	else
-	end
-end)
-
 
 function hoveringNames()
  local ply = LocalPlayer()
@@ -127,6 +126,7 @@ hook.Add( "HUDPaint", "DrawNames", function()
  
  local ply = LocalPlayer()
  local car = ply:GetVehicle()
+ local laps = ply:GetNWInt( "TotalCP" )
 	
 	if IsValid(car) then
 	
@@ -143,7 +143,7 @@ if  ply:InVehicle() and vehicleclass != "prop_vehicle_airboat" then
 	draw.SimpleText("CHECKPOINTS:", "RacingHUDSmall", ScrW()-150, ScrH()-125, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	draw.SimpleText(laps, "RacingHUDV2", ScrW()-90, ScrH()-130, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	draw.SimpleText("/", "RacingHUD", ScrW()-60, ScrH()-110, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(3, "RacingHUD", ScrW()-15, ScrH()-90, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(totalLaps, "RacingHUD", ScrW()-15, ScrH()-90, Color(255,255,255,150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	if seconds == 3 then	
 	draw.SimpleText(3, "RacingHUDBold", (ScrW()/2+25), (ScrH()/2 -100), Color(255,255,255,255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	end
@@ -178,34 +178,6 @@ timer.Create("ifGameOver", 1, 0, function()
 	if !raceactive then
 		laps = 1
 	end
-end)
-
-timerMs = 00
-timerSeconds = 00
-timerMinutes = 00
-timer.Adjust("timerHUD",.1,0, function()
-	
-	timerMs = timerMs + 0.1
-	math.Round(timerMs,-1)
-	if timerMs > 9 then
-	timerMs = 00
-	timerSeconds = timerSeconds + 01
-	math.Round(timerSeconds,-1)
-	end
-	if timerSeconds > 59 then
-	timerMs = 00
-	timerSeconds = 00
-	timerMinutes = timerMinutes + 01
-	math.Round(timerMinutes,-1)
-	end
-	if timerMinutes > 59 then
-	timerMs = 00
-	timerSeconds = 00
-	timerMinutes = timerMinutes + 0
-	end
-	
-	totalTime = (timerMinutes .. ":"..timerSeconds .. ":" .. timerMs)
-
 end)
 
 

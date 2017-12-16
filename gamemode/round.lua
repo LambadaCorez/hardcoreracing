@@ -2,9 +2,9 @@ resource.AddFile("music/export.mp3")
 include("entities/props/fence.lua")
 include("entities/props/fence2.lua")
 
-local ExtraFilters = {"prop_vehicle_airboat", "prop_dynamic"}
+local ExtraFilters = {"prop_vehicle_airboat", "prop_dynamic", "info_spawn_vehicle", "info_vehicle_spawn", "trigger_checkpoint"}
 
-
+ 
 
 local spawnrate = 0
 
@@ -223,7 +223,7 @@ function EndRound(winners)
 end
 
 
-function spawnRace( ply, veh )
+function spawnRace( ply )
 
 		if ply:Alive() then
 		local pos = ply:GetPos()
@@ -231,11 +231,6 @@ function spawnRace( ply, veh )
 			ply:GodEnable()
 			ply:SetNoCollideWithTeammates(true)
 			ply:StripWeapons()
-				if spawnrate == 8 then
-					spawnrate  = 0
-				else
-					spawnrate = spawnrate + 1
-				end
 	
 		end
 	end
