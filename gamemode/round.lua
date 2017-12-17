@@ -1,6 +1,4 @@
 resource.AddFile("music/export.mp3")
-include("entities/props/fence.lua")
-include("entities/props/fence2.lua")
 
 local ExtraFilters = {"prop_vehicle_airboat", "prop_dynamic", "info_spawn_vehicle", "info_vehicle_spawn", "trigger_checkpoint"}
 
@@ -8,15 +6,7 @@ local ExtraFilters = {"prop_vehicle_airboat", "prop_dynamic", "info_spawn_vehicl
 
 local spawnrate = 0
 
-include("entities/props/fence.lua")
-include("entities/buggies/buggy1.lua")
-include("entities/buggies/buggy2.lua")
-include("entities/buggies/buggy3.lua")
-include("entities/buggies/buggy4.lua")
-include("entities/buggies/buggy5.lua")
-include("entities/buggies/buggy6.lua")
-include("entities/buggies/buggy7.lua")
-include("entities/buggies/buggy8.lua")
+
 
 function UpdateTimer( time )
 		net.Start("race_timer")
@@ -124,9 +114,6 @@ function RoundEndCheck()
 			end
 			end
 	end)
- 
-	
-	RunConsoleCommand( "r_spawn" )
 	
 	game.CleanUpMap(false, ExtraFilters  )
 	
@@ -208,14 +195,6 @@ function EndRound(winners)
 		net.Broadcast()
 		raceactive = false
 		pregame = true
-		SpawnFence()
-		SpawnFence2()
-		SpawnDemoDurbyFence1()
-	SpawnDemoDurbyFence2()
-	SpawnDemoDurbyFence3()
-	SpawnDemoDurbyFence4()
-	SpawnDemoDurbyFence5()
-	SpawnDemoDurbyFence6()
 	
 	
 

@@ -1,4 +1,3 @@
-include("addon.lua")
 
 cars = {}
 

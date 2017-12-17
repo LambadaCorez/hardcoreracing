@@ -428,7 +428,6 @@ end
   
 function GM:Think()
 	handBrake()
-	getRidOfGrenades()
 	
 	for k, v in pairs(player.GetAll()) do
 		if !raceactive then
