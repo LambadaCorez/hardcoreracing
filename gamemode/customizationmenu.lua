@@ -1009,6 +1009,25 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	end
 	
 	function buycustomsButton:DoClick() 
+	if frontbump == nil then
+	frontbump = 0
+	end
+	if rearbump == nil then
+	rearbump = 0
+	end
+	if skirts == nil then
+	skirts = 0
+	end
+	if hoods == nil then
+	hoods = 0
+	end
+	if wings == nil then
+	wings = 0
+	end
+	if wheelz == nil then
+	wheelz = 0
+	end
+	
 	if number == 0 then
 	avg = ("000" .. frontbump .. rearbump .. skirts .. hoods  .. "0" .. wings  .. wheelz )
 	end

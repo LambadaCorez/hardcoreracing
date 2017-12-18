@@ -1,4 +1,4 @@
---init
+--RACE Init
 
 carSpawns = {}
 
@@ -77,12 +77,6 @@ keyvalues[5]={keyvalue="scripts/vehicles/tdmcars/370z.txt"}
 keyvalues[6]={keyvalue="scripts/vehicles/tdmcars/mitsu_eclipgt.txt"}		
 
 local carSpawnIn = 0
-
-if IsValid(carSpawns[1]) then
-
-carspawn = carSpawns[1]:GetPos()
-
-end
 raceactive = false
 pregame = true
 sc = 1
@@ -244,6 +238,8 @@ end )
 	
 	timer.Create("waitingTime", 1, 1, function()
 		SetGlobalInt("AllCheckpoints", #checkpoints)
+		print(#checkpoints)
+		print(#carSpawns)
 	end)
 	
 	end
@@ -253,8 +249,6 @@ end )
 		net.WriteInt(#checkpoints, 32)
 		net.Broadcast()
 		PrintMessage( HUD_PRINTTALK, ply:Nick() .. " has spawned in!" )
-		PrintMessage( HUD_PRINTTALK,"Car Spawns:" .. #carSpawns )
-		PrintMessage( HUD_PRINTTALK,"Checkpoints:" .. #checkpoints )
 		StatLoad( ply )
 		
 	end
@@ -352,6 +346,10 @@ function GM:ShowSpare1( ply )
 	
 function GM:ShowSpare2( ply )
 
+
+	local chAngles;
+	chAngles = (checkpoints[2]:OBBCenter() - checkpoints[1]:OBBCenter()):Angle()
+	chAngles:RotateAroundAxis(chAngles:Up(), -90)
 	cspawn = carSpawns[sc]:GetPos()
 	cangle = carSpawns[sc]:GetAngles()
 
@@ -389,12 +387,26 @@ customVar = 0
 end
 	
 	if (netbool) then
+		--All of this angle logic is from GMRacer, so backwards compatibility would work.
+		local newAngle;
 		
+		if cspawn.Angles then
+					newAngle = cspawn.Angles
+				elseif chAngles then
+					newAngle = chAngles;
+				else
+					newAngle = Angle(0, math.random(360), 0);
+				end
+	
+		if game.GetMap() == "gmr_ldt_poopyloopy_v2" then
 		
+			newAngle = cangle
+		
+		end
 	
 		if carSpawnIn != table.Count(carSpawns) + 1 and ply.carSpawn == 0 and ply:Alive() then
 		
-		SpawnCar1(ply,Color(colorR,colorG,colorB,255),tonumber(ply:GetNWInt("pCar")),cspawn,cangle,customVar)
+		SpawnCar1(ply,Color(colorR,colorG,colorB,255),tonumber(ply:GetNWInt("pCar")),cspawn,newAngle,customVar)
 		
 		spawnRace(ply)
 		
@@ -491,9 +503,9 @@ function GM:Think()
 		end
 	end
 		
-		if racersFinished == racersAlive and racerSend == 0 then
-			if racerSecond == nil then
-			racerSecond = "Nobody"
+		if racersFinished == racersAlive and racerSend == 0 and !netbool and raceactive then
+			if raceSecond == nil then
+			raceSecond = "Nobody"
 			end
 			if raceThird == nil then
 			raceThird = "Nobody"
