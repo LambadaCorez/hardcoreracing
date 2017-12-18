@@ -8,7 +8,6 @@ end
 function ENT:StartTouch( Ent )
 	if Ent and Ent:IsValid() and Ent:IsPlayer() then 
 	Ent:Kill(); 
-	Ent:ChatPrint("You got killed by the ent_kill entity!")
 	end
 end
 

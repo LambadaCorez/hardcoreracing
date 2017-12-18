@@ -477,26 +477,15 @@ function GM:Think()
 			end
 			if raceWinner == nil and v.alreadyWinner == 0 then
 			raceWinner = v:Nick()
-			print(raceWinner)
-			print("racers finished: " .. racersFinished)
-			print("racers total: " .. racersAlive)
-			print("racer send: " .. racerSend)
 			v:SetNWInt("money", v:GetNWInt("money") + 400)
 			v.alreadyWinner = 1 
 			elseif raceSecond == nil and raceWinner != nil and v.alreadyWinner == 0 then
 			raceSecond = v:Nick()
-			print(raceSecond)
-			print("racers finished: " .. racersFinished)
-			print("racers total: " .. racersAlive)
-			print("racer send: " .. racerSend)
 			v:SetNWInt("money", v:GetNWInt("money") + 200)
 			v.alreadyWinner = 1
 			elseif raceThird == nil and raceWinner != nil and raceSecond != nil and v.alreadyWinner == 0 then
 			raceThird = v:Nick()
-			print(raceThird)
-			print("racers finished: " .. racersFinished)
-			print("racers total: " .. racersAlive)
-			print("racer send: " .. racerSend)
+
 			v:SetNWInt("money", v:GetNWInt("money") + 100)
 			v.alreadyWinner = 1
 			end
@@ -510,8 +499,10 @@ function GM:Think()
 			if raceThird == nil then
 			raceThird = "Nobody"
 			end
+			if IsValid(raceWinner) then
 			EndRound(raceWinner .." won 1st, " .. raceSecond .." won 2nd, and " .. raceThird .. " won 3rd.")
 			racerSend = 1
+			end
 		end
 	end
 	

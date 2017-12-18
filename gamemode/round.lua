@@ -123,15 +123,15 @@ function RoundEndCheck()
 			end
 	end
 	
-		time = 180
+		timeCheck = 180
 	
-	timer.Create( "checkdelay", 1, time, function()
+	timer.Create( "checkdelay", 1, timeCheck, function()
 		if !netbool and raceactive then
 			
 			
 			
-			time = time - 1
-			UpdateTimer( time )
+			timeCheck = timeCheck - 1
+			UpdateTimer( timeCheck )
 			
 			racersAlive = 0
 			for k, v in pairs( team.GetPlayers( 0 ) ) do
@@ -153,8 +153,8 @@ function RoundEndCheck()
 			EndRound("Nobody is alive! Nobody")
 			end
 			
-			if time == 0 then
-			EndRound("Time Ran Out! Nobody")
+			if timeCheck == 19 then
+			EndRound("Time ran out! Nobody")
 			end
 			end
 		end)
