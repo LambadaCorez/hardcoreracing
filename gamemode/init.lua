@@ -210,6 +210,12 @@ chat.PlaySound()
 end
 
 	
+concommand.Add( "race_customization", function(ply,cmd,args)
+	
+	net.Start("openCustomMenu")
+	net.Send(ply)
+	
+end)
 	
 	hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team )
 		if ply:SteamID() == "STEAM_0:0:47799736" or ply:SteamID() == "STEAM_0:1:42974043" or pregame then
@@ -398,7 +404,7 @@ end
 					newAngle = Angle(0, math.random(360), 0);
 				end
 	
-		if game.GetMap() == "gmr_ldt_poopyloopy_v2" then
+		if game.GetMap() == "gmr_ldt_poopyloopy_v2" or game.GetMap() == "gmr_rainbow_roadv2" then
 		
 			newAngle = cangle
 		
@@ -470,7 +476,13 @@ function GM:Think()
 				racersFinished = racersFinished + 1
 				v.alreadyCrossed = 1
 			end
+		if v.alreadyCrossed == 1 and v:Alive() == false then
+		racersFinished = racersFinished - 1
+		v.alreadyCrossed = 2
+		end
+		print(racersFinished)
 		if v.stopCheck == 0 then
+			v.KillPossible = false
 			v:GetVehicle():Fire("TurnOff")	
 			v:SetNWInt("money", v:GetNWInt("money") + 100)
 			v.stopCheck = 1
@@ -499,7 +511,7 @@ function GM:Think()
 			if raceThird == nil then
 			raceThird = "Nobody"
 			end
-			if IsValid(raceWinner) then
+			if raceWinner != nil then
 			EndRound(raceWinner .." won 1st, " .. raceSecond .." won 2nd, and " .. raceThird .. " won 3rd.")
 			racerSend = 1
 			end
@@ -508,13 +520,6 @@ function GM:Think()
 	
 end
 
-function GM:CanPlayerSuicide( play )
-
-if play.racersChecked == 1 then 
-
-end
-
-end
 
 function handBrake()
     for k,v in pairs(ents.FindByClass("prop_vehicle_jeep_old")) do

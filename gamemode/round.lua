@@ -123,7 +123,7 @@ function RoundEndCheck()
 			end
 	end
 	
-		timeCheck = 180
+		timeCheck = 300
 	
 	timer.Create( "checkdelay", 1, timeCheck, function()
 		if !netbool and raceactive then
@@ -132,7 +132,6 @@ function RoundEndCheck()
 			
 			timeCheck = timeCheck - 1
 			UpdateTimer( timeCheck )
-			
 			racersAlive = 0
 			for k, v in pairs( team.GetPlayers( 0 ) ) do
 					racersAlive = racersAlive + 1
@@ -147,6 +146,14 @@ function RoundEndCheck()
 			
 			end
 			end
+			end
+			
+			if timeCheck == 79 then
+			PrintMessage(HUD_PRINTTALK,"Racers, you have 1 minute until time runs out!")
+			end
+			
+			if timeCheck == 49 then
+			PrintMessage(HUD_PRINTTALK,"Racers, you have 30 seconds until time runs out!")
 			end
 			
 			if racersAlive == 0 then
