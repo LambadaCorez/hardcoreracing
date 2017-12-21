@@ -218,26 +218,11 @@ concommand.Add( "race_customization", function(ply,cmd,args)
 end)
 	
 	hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team )
-		if ply:SteamID() == "STEAM_0:0:47799736" or ply:SteamID() == "STEAM_0:1:42974043" or pregame then
+		if pregame then
 			if ( string.lower( text ) == "!start" ) then
 				RoundStart()
 			end
-			end
-		if ply:SteamID() == "STEAM_0:0:47799736" or ply:SteamID() == "STEAM_0:1:42974043" then
-			if ( string.lower( text ) == "!stop" ) then
-				EndRound("FORCE STOP: Nobody")
-			end
-			if ( string.lower( text ) == "!cleanup" ) then
-				game.CleanUpMap(false, {
-				ents.FindByClass("Airboat")
-				} )
-			end
-		if ( string.lower( text ) == "!money" ) then
-				ply:SetNWInt("money", ply:GetNWInt("money") + 10000)
-			end
 		end
-		
-		
 end )
 	
 	function GM:Initialize()
