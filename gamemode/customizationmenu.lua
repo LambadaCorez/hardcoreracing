@@ -44,6 +44,8 @@ local hood = 0
 local wing = 0
 local wheels = 0
 local avg = 0
+local customVar = 0
+local fchoices = 0
 	
 	menu:SetSize(250,500)
 	menu:SetPos((ScrW()/2) - 125, (ScrH()/2) - 250)
@@ -92,8 +94,38 @@ local avg = 0
 	preview:SetSize( 100,100 )
 	preview:Dock(FILL)
 	
-	preview:SetModel( cars[tonumber(ply:GetNWInt("pCar"))].car )
+	local vehiCheck = tonumber(ply:GetNWInt("pCar"))
 	
+	if vehiCheck == 0 then
+		customVar = ply:GetNWString("pGSX") 
+	end
+	if vehiCheck == 1 then
+		customVar = ply:GetNWString("pSIL")
+	end
+	if vehiCheck == 2 then
+		customVar = ply:GetNWString("pEV8")
+	end
+	if vehiCheck == 3 then
+		customVar = ply:GetNWString("pEVX")
+	end
+	if vehiCheck == 4 then
+		customVar = ply:GetNWString("pR34")
+	end 
+	if vehiCheck == 5 then
+		customVar = ply:GetNWString("p370")
+	end
+	if vehiCheck == 6 then
+		customVar = ply:GetNWString("pMGT")
+	end
+	
+	if customVar == nil then 
+	customVar = 0
+	end
+	
+	print(customVar)
+	preview:SetModel( cars[number].car )
+	preview.Entity:SetBodyGroups( customVar )
+	preview:SetColor(Color(ply:GetNWInt("colorR"),ply:GetNWInt("colorG"),ply:GetNWInt("colorB")))
 	
 	local mn, mx = preview.Entity:GetRenderBounds()
 	local size = 0
@@ -110,7 +142,7 @@ local avg = 0
 	colorpick:SetPalette( true )
 	colorpick:SetAlphaBar( false )	
 	colorpick:SetWangs( true )
-	colorpick:SetColor( col )
+	colorpick:SetColor(Color(ply:GetNWInt("colorR"),ply:GetNWInt("colorG"),ply:GetNWInt("colorB")))
 	function colorpick:ValueChanged( color )
 		colorpick:SetConVarR("ColorRed")
 		colorpick:SetConVarG("ColorGreen")
@@ -281,6 +313,41 @@ local avg = 0
 	end		
 	
 	
+	local flamemenu = vgui.Create("DFrame")
+	
+	
+	flamemenu:SetSize(900,600)
+	flamemenu:Center()
+	flamemenu:SetTitle("Boost Flame Menu")
+	flamemenu:SetVisible( false )
+	flamemenu:SetDraggable( false )
+	flamemenu:ShowCloseButton(true)
+	flamemenu:MakePopup(true)
+	
+	local buybutton = vgui.Create("DButton", flamemenu )
+		buybutton:SetText("Buy flames for " .. carlist[number].car .. ": $500")
+		buybutton:SetSize(0,45)
+		buybutton:Dock(BOTTOM)	
+	
+	local flamechoices = vgui.Create( "DComboBox", flamemenu )
+	
+	flamechoices:SetPos(450,150)
+	flamechoices:SetSize(200,100)
+	flamechoices:SetValue("Flame Choices:")
+	flamechoices:AddChoice("Default", 0, false)
+	flamechoices:AddChoice("Super Red", 1, false)
+	flamechoices:AddChoice("Orange Nuke", 2, false)
+	flamechoices:AddChoice("Blue Bunsen Burner", 3, false)
+	flamechoices:AddChoice("Hot Pink", 4, false)
+	flamechoices:AddChoice("4000 Degrees Kelvin Purple", 5, false)
+	flamechoices:AddChoice("Spillway Green", 6, false)
+	flamechoices:AddChoice("Dull Grey", 6, false)
+	flamechoices.OnSelect = function( panel, index, value )
+		fchoices = index
+		total = 500
+		buybutton:SetText("Buy flames for " .. carlist[number].car .. ": $500")
+	end
+	
 	
 	
 	
@@ -294,6 +361,17 @@ local avg = 0
 	customize:SetDraggable( false )
 	customize:ShowCloseButton(true)
 	customize:MakePopup(true)
+	
+	local nextbutton = vgui.Create( "DButton", customize )
+	
+	nextbutton:SetPos(50,150)
+	nextbutton:SetSize(20,22)
+	nextbutton:SetText("Boost Flames ->")
+	nextbutton:Dock(TOP)
+	nextbutton.DoClick = function()
+		customize:SetVisible(false)
+		flamemenu:SetVisible(true)		
+	end
 	
 	local prev = vgui.Create( "DModelPanel", customize )
 	
@@ -336,6 +414,8 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 		buycustomsButton:SetSize(0,45)
 		buycustomsButton:Dock(BOTTOM)	
+	
+	
 	
 	if number == 0 then -- mit gsx
 	
@@ -798,8 +878,8 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	hood:SetPos(675,250)
 	hood:SetSize(200,100)
 	hood:SetValue("Hoods:")
-	hood:AddChoice("Hood Option 2", 0, false)
-	hood:AddChoice("Hood Option 3", 1, false)
+	hood:AddChoice("Hood Option 1", 0, false)
+	hood:AddChoice("Hood Option 2", 1, false)
 	hood.OnSelect = function( panel, index, value )
 		hoods = index
 		prev.Entity:SetBodygroup(6,index)
@@ -830,8 +910,8 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	wheels:SetPos(675,350)
 	wheels:SetSize(200,100)
 	wheels:SetValue("Wheels:")
-	wheels:AddChoice("Tire Option 2", 0, false)
-	wheels:AddChoice("Tire Option 3", 1, false)
+	wheels:AddChoice("Tire Option 1", 0, false)
+	wheels:AddChoice("Tire Option 2", 1, false)
 	wheels.OnSelect = function( panel, index, value )
 		wheelz = index
 		prev.Entity:SetBodygroup(8,index)
@@ -976,6 +1056,17 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 		buycustomsButton:SetText("Buy upgrades for " .. carlist[number].car .. ": $" .. total)
 	end
 	
+	local nextbutton = vgui.Create( "DButton", customize )
+	
+	nextbutton:SetPos(50,150)
+	nextbutton:SetSize(200,100)
+	nextbutton:SetText("Boost Flames ->")
+	nextbutton:Dock(TOP)
+	nextbutton.DoClick = function()
+		customize:SetVisible(false)
+		flamemenu:SetVisible(true)		
+	end
+	
 	end
 	 
 	function buyButton:DoClick()
@@ -984,7 +1075,6 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	net.SendToServer()
 	
 	end
-	
 
 	function colorbutton:OnMousePressed()
 		local coloris = Color(GetConVarNumber( "ColorRed" ), GetConVarNumber("ColorGreen"), GetConVarNumber("ColorBlue"))
@@ -1003,9 +1093,26 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 		
 	end
 	
+	
+	
 	function carmenubutton:OnMousePressed()
 	menu:SetVisible(false)
 	vendermenu:SetVisible(true)
+	end
+	
+	function buycustomsButton:DoClick() 
+	
+		if fchoices == nil then
+			fchoices = 0
+		end
+		
+	
+	
+	net.Start("buyFlames")
+	net.WriteString(tostring(fchoices))
+	net.SendToServer()
+	
+	
 	end
 	
 	function buycustomsButton:DoClick() 

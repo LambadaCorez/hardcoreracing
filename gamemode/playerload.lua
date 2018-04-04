@@ -4,6 +4,7 @@ function StatLoad( ply )
 
 	--MONEY
 	if ply:GetPData("money") == nil then
+		print("A new player has arrived! " .. ply:Nick() .. " has joined for the first time! Setting up necessary systems...")
 		ply:SetPData("money", 0 )
 		ply:SetNWInt("money", 0 )
 	else
@@ -29,6 +30,18 @@ function StatLoad( ply )
 		ply:SetNWInt("colorB", ply:GetPData("colorB"))
 		ply:SetNWString("color", ply:GetPData("color"))
 	end
+	
+	if ply:GetPData("boostColor") == nil then
+		ply:SetPData("boostColor", "1")
+		ply:SetPData("boostColor1", "244 134 66 255")
+		ply:SetPData("boostColor2", "0 156 255 255")
+		ply:SetNWString("boostColor1",  ply:GetPData("boostColor1"))
+		ply:SetNWString("boostColor2",  ply:GetPData("boostColor2"))
+		else
+		ply:SetNWString("boostColor1",  ply:GetPData("boostColor1"))
+		ply:SetNWString("boostColor2",  ply:GetPData("boostColor2"))
+	end
+	
 if ply:GetPData("pGSX") == nil then
 	ply:SetPData("pGSX", "00000000")
 	ply:SetNWString("pGSX","00000000")

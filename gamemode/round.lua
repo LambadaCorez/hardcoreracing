@@ -143,7 +143,7 @@ function RoundEndCheck()
 			
 			v:SetNWInt("money", v:GetNWInt("money") + 500)
 			EndRound("Every racer but " .. v:Nick() .." is dead: " .. v:Nick())
-			
+			 
 			end
 			end
 			end
