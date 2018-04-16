@@ -1,31 +1,27 @@
 --RACE Init
 
+-- Hey you! Yeah you! What's up! I tried my best to document everything inside of this init folder so you can get an understanding of the gamemode. If you ever want to change anything for your server,
+-- (which I dont recommend, ruins the vanilla fun) you can look around in here. 
+
 carSpawns = {}
 
 checkpoints = {}
 
+mapRotation = {}
+
+mapRotation[0] = {name="gmr_black_v2", path = "gmr_black_v2.bsp"}
+mapRotation[1] = {name="gmr_figure8_v3", path = "gmr_figure8_v3.bsp"}
+mapRotation[2] = {name="gmr_wariostadium", path = "gmr_wariostadium.bsp"}
+
 SetGlobalInt("AllCheckpoints", 0)
 
-resource.AddFile("materials/layer/race.vmt")
 resource.AddFile("music/export.mp3")
 resource.AddWorkshop( 941042491 )
 
-sound.Add( {
-	name = "nitrous",
-	channel = CHAN_AUTO,
-	volume = .3,
-	level = 80,
-	pitch = { 95, 115, 100, 110},
-	sound = "vehicles/tdmcars/miscsounds/turbo1.wav"
-} )
-
-local sc = 0
- 
 util.AddNetworkString("race_active")
 util.AddNetworkString("race_timer")
 util.AddNetworkString("laps")
 util.AddNetworkString("lapsclient")
-util.AddNetworkString("Lap1")
 util.AddNetworkString("lapBool")
 util.AddNetworkString("10secondBool")
 util.AddNetworkString("10secondInt")
@@ -34,26 +30,34 @@ util.AddNetworkString("openCustomMenu")
 util.AddNetworkString("color")
 util.AddNetworkString("buyCar")
 util.AddNetworkString("buyCustoms")
+util.AddNetworkString("buyFlames")
 util.AddNetworkString("totalLapNum")
 util.AddNetworkString("helpMenu")
 util.AddNetworkString("changeBools")
 util.AddNetworkString("boostActivate")
+util.AddNetworkString("mapMenu")
 
 AddCSLuaFile("shared.lua")
-AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("player.lua")
-AddCSLuaFile("logo.lua")
-AddCSLuaFile("cl_music.lua")
-AddCSLuaFile("customizationmenu.lua")
+AddCSLuaFile("client/cl_init.lua")
+AddCSLuaFile("client/cl_hud.lua")
+AddCSLuaFile("client/cl_music.lua")
+AddCSLuaFile("client/cl_menu.lua")
 
 include("shared.lua")
 include("player.lua")
 include("round.lua")
-include("playerload.lua")
-
+include("server/sv_playerload.lua")
+include("sv_tables.lua")
+include("server/sv_rounds.lua")
 include("entities/car/cardefault.lua")
 
+local sc = 0
 maxRacers = 0
+local carSpawnIn = 0
+raceactive = false
+pregame = true
+sc = 1
 
 cars = {}
 
@@ -64,7 +68,6 @@ cars[3] = {car = "models/tdmcars/mitsu_evox.mdl"}
 cars[4] = {car = "models/tdmcars/skyline_r34.mdl"}
 cars[5] = {car = "models/tdmcars/nis_370z.mdl"}
 cars[6] = {car = "models/tdmcars/mitsu_eclipgt.mdl"}
-
 
 carmoney = {}
 
@@ -77,22 +80,7 @@ carmoney[5] = {cost = 4000}
 carmoney[6] = {cost = 3000}
 
 
-keyvalues = {}
-
-keyvalues[0]={keyvalue="scripts/vehicles/tdmcars/mit_eclipsegsx.txt"}
-keyvalues[1]={keyvalue="scripts/vehicles/tdmcars/nissilvs15.txt"}
-keyvalues[2]={keyvalue="scripts/vehicles/tdmcars/mitsu_evo8.txt"}
-keyvalues[3]={keyvalue="scripts/vehicles/tdmcars/mitsu_evox.txt"}
-keyvalues[4]={keyvalue="scripts/vehicles/tdmcars/skyline_r34.txt"}		
-keyvalues[5]={keyvalue="scripts/vehicles/tdmcars/370z.txt"}
-keyvalues[6]={keyvalue="scripts/vehicles/tdmcars/mitsu_eclipgt.txt"}		
-
-local carSpawnIn = 0
-raceactive = false
-pregame = true
-sc = 1
-
-	net.Receive("buyCustoms", function( len, ply )
+	net.Receive("buyCustoms", function( len, ply ) --Called when the player orders a new set of customization options.
 		
 		ply.reserveMoney = tonumber(ply:GetNWInt("money"))
 		
@@ -143,20 +131,11 @@ sc = 1
 		
 	end)
 	
-	net.Receive("buyFlames", function( len, ply )
-		flamechoices:AddChoice("Default", 0, false)
-	flamechoices:AddChoice("Super Red", 1, false)
-	flamechoices:AddChoice("Orange Nuke", 2, false)
-	flamechoices:AddChoice("Blue Bunsen Burner", 3, false)
-	flamechoices:AddChoice("Hot Pink", 4, false)
-	flamechoices:AddChoice("4000 Degrees Kelvin Purple", 5, false)
-	flamechoices:AddChoice("Spillway Green", 6, false)
-	flamechoices:AddChoice("Dull Grey", 6, false)
-	
-	
+	net.Receive("buyFlames", function( len, ply ) --Called when the player buys a new set of "flames".
+
 	ply.reserveMoney = tonumber(ply:GetNWInt("money"))
 		
-		ply.flameColor = net.ReadString()
+		ply.flameColor = tonumber(net.ReadString()) - 1
 		
 		if ply.reserveMoney < 500 then
 		
@@ -164,52 +143,55 @@ sc = 1
 		
 		else
 		
-		local vehCheck = tonumber(ply:GetNWInt("pCar"))
-		
-		if vehCheck == 0 then
+		if ply.flameColor == 0 then
 		ply:SetNWString("boostColor1", "244 134 66 255")
 		ply:SetNWString("boostColor2", "0 156 255 255")
 		end
 		
-		if vehCheck == 1 then
+		if ply.flameColor == 1 then
 		ply:SetNWString("boostColor1", "255 43 43 255")
 		ply:SetNWString("boostColor2", "255 168 168 255")
 		end
 		
-		if vehCheck == 2 then
+		if ply.flameColor == 2 then
 		ply:SetNWString("boostColor1", "255 102 0 255")
 		ply:SetNWString("boostColor2", "255 153 81 255")
 		end
 		
-		if vehCheck == 3 then
+		if ply.flameColor == 3 then
 		ply:SetNWString("boostColor1", "0 225 255 255")
 		ply:SetNWString("boostColor2", "0 59 255 255")
 		end
 		
-		if vehCheck == 4 then
+		if ply.flameColor == 4 then
 		ply:SetNWString("boostColor1", "255 30 180 255")
 		ply:SetNWString("boostColor2", "255 153 81 255")
 		end
 		
-		if vehCheck == 5 then 
-		ply:SetNWString("boostColor1", "255, 102, 0 255")
-		ply:SetNWString("boostColor2", "255 153 81 255")
+		if ply.flameColor == 5 then 
+		ply:SetNWString("boostColor1", "127 0 255 255")
+		ply:SetNWString("boostColor2", "255 122 215 255")
 		end
 		
-		if vehCheck == 6 then
-		ply:SetNWString("boostColor1", "255, 102, 0 255")
-		ply:SetNWString("boostColor2", "255 153 81 255")
+		if ply.flameColor == 6 then
+		ply:SetNWString("boostColor1", "0 255 12 255")
+		ply:SetNWString("boostColor2", "109 255 230 255")
 		end
 		
-		ply:SetNWInt("money", ply:GetNWInt("money") - 1000)
+		if ply.flameColor == 7 then
+		ply:SetNWString("boostColor1", "175 175 175 255")
+		ply:SetNWString("boostColor2", "79 79 79 255")
+		end
 		
-		ply:ChatPrint("Car customization set! Cost: $1000")
+		ply:SetNWInt("money", ply:GetNWInt("money") - 500)
+		
+		ply:ChatPrint("Flame color set! Cost: $500")
 		end
 	
 	
 	end)
 	
-	net.Receive("buyCar", function( len, ply )
+	net.Receive("buyCar", function( len, ply ) --Called when the player buys a new car.
 	
 		ply.reserveMoney = tonumber(ply:GetNWInt("money"))
 		
@@ -233,13 +215,9 @@ sc = 1
 		
 		end
 		
-		
-	
-	
 	end)
 	
-	net.Receive( "color", function( len, ply )
-		
+	net.Receive( "color", function( len, ply ) --Called when the player orders a new color for their car.
 		if tonumber(ply:GetNWInt("money")) >= 100 then
 			ply:ChatPrint("Car color switched! Cost: $100")
 			ply.colorR = net.ReadInt(32)
@@ -255,7 +233,6 @@ sc = 1
 			ply:ChatPrint("You don't have enough money to change your color! You need at least $100! Race around for some money!")
 		
 		end
-	
 	end)
 	
 	net.Receive( "lapBool", function( len, racer )
@@ -263,82 +240,67 @@ sc = 1
 			lapBool = net.ReadBool(32)
 		end
 	end)
-	
-	net.Receive("10secondBool", function( len, ply )
-		tenSeconds = net.ReadBool(32)
-	end)
 
-	net.Receive( "race_active", function( len )
-	raceactive = net.ReadBool()
-	end)
-
-	net.Receive("boostActivate", function (len, ply)
+	net.Receive("boostActivate", function (len, ply) --Called everytime a player boosts.
 		 local boostColor = tostring(ply:GetNWString("boostColor1"))
 		if tonumber(ply:GetNWInt("boostnum")) >= 1 then
 		if !netbool then
-		ply:SetNWInt("boostnum", tonumber(ply:GetNWInt("boostnum")) - 1 )
+			ply:SetNWInt("boostnum", tonumber(ply:GetNWInt("boostnum")) - 1 )
 		if ply:InVehicle() then
-		ply.boost = true
-		net.Start("changeBools")
-		net.WriteBool(ply.boost)
-		net.Send(ply) 
-		print(ply:GetNWString("boostColor1"))
-		ply:GetVehicle():SetMaxThrottle(10) 
-		ply:GetVehicle():EmitSound("vehicles/tdmcars/miscsounds/turbo_blowoff3.wav", 85, 100, 1, CHAN_AUTO)
-		ply:GetVehicle():EmitSound("nitrous") 
-		
-		print("String: " .. boostColor) 
-		
-		PrintTable(string.ToColor(boostColor))
-		
-		spritetrail = util.SpriteTrail( ply:GetVehicle(), 3, string.ToColor(ply:GetNWString("boostColor1")), false, 25, 15, .2, 1/(15+1)*0.5, "trails/plasma.vmt")
-		spritetrail1 = util.SpriteTrail( ply:GetVehicle(), 3, string.ToColor(ply:GetNWString("boostColor2")), false, 25, 15, .1, 1/(15+1)*0.5, "trails/plasma.vmt")
-		spritetrail2 = util.SpriteTrail( ply:GetVehicle(), 4, string.ToColor(ply:GetNWString("boostColor1")), false, 25, 15, .2, 1/(15+1)*0.5, "trails/plasma.vmt")
-		spritetrail3 = util.SpriteTrail( ply:GetVehicle(), 4, string.ToColor(ply:GetNWString("boostColor2")), false, 25, 15, .1, 1/(15+1)*0.5, "trails/plasma.vmt")
+			ply:SetNWInt("boostCounter", tonumber(ply:GetNWInt("boostCounter")) + 1) --Adds 1 onto the amount the player has boosted in this server.
+			ply.boost = true
+			net.Start("changeBools")
+			net.WriteBool(ply.boost)
+			net.Send(ply) --Send the player the information to let them know that they're boosting, and to activate the visual effects.
+			ply:GetVehicle():SetMaxThrottle(10) --You can change this if you want, this adjusts how fast the boost makes you go.
+			ply:GetVehicle():EmitSound("vehicles/tdmcars/miscsounds/turbo_blowoff3.wav", 85, 100, 1, CHAN_AUTO)
+			ply:GetVehicle():EmitSound("nitrous")
+			ply:SetFOV(ply:GetFOV() + 20, 1.5) --Widens the player's FoV.
+			
+			--These variables below are the sprite trails used to generate the "flames" in the back of the car while boosting.
+			spritetrail = util.SpriteTrail( ply:GetVehicle(), 3, string.ToColor(ply:GetNWString("boostColor1")), false, 25, 15, .2, 1/(15+1)*0.5, "trails/plasma.vmt")
+			spritetrail1 = util.SpriteTrail( ply:GetVehicle(), 3, string.ToColor(ply:GetNWString("boostColor2")), false, 25, 15, .1, 1/(15+1)*0.5, "trails/plasma.vmt")
+			spritetrail2 = util.SpriteTrail( ply:GetVehicle(), 4, string.ToColor(ply:GetNWString("boostColor1")), false, 25, 15, .2, 1/(15+1)*0.5, "trails/plasma.vmt")
+			spritetrail3 = util.SpriteTrail( ply:GetVehicle(), 4, string.ToColor(ply:GetNWString("boostColor2")), false, 25, 15, .1, 1/(15+1)*0.5, "trails/plasma.vmt")
+			
 		end
-		timer.Simple(2, function()
-			if ply:InVehicle() then
-				ply:GetVehicle():SetMaxThrottle(1)
-				for k, v in pairs(ents.FindByClass("env_spritetrail")) do
-					v:Remove()
+		
+			timer.Simple(2, function() --Called after the car boosts for 2 seconds. Feel free to change the time value and make it shorter or longer.
+				ply:SetFOV(ply:GetFOV() - 20, .5)
+				
+				if ply:InVehicle() then
+					ply:GetVehicle():SetMaxThrottle(1)
+					for k, v in pairs(ents.FindByClass("env_spritetrail")) do
+						v:Remove()
+					end
+					ply:GetVehicle():StopSound("nitrous") --Stops the nitrous sound.
 				end
-				ply:GetVehicle():StopSound("nitrous")
-			end
 				ply.boost = false
 				net.Start("changeBools")
 				net.WriteBool(ply.boost)
-				net.Send(ply)
-		end)
+				net.Send(ply) --Sends the player that they are not boosting anymore, and they can get rid of the visual effects.
+			end)
+			
 		end
 		else
 			
 			end
 		
 	end)
-	
-	
-	
-function GM:OnPlayerChat( ply, text )
 
-chat.PlaySound()
-
-end
-
-concommand.Add( "race_customization", function(ply,cmd,args)
+concommand.Add( "race_customization", function(ply,cmd,args) --Customization menu, you can enter this command and it will open it up.
 	
 	net.Start("openCustomMenu")
 	net.Send(ply)
 	
 end)
 	
-concommand.Add("race_helpmenu", function(ply, cmd, args)
-
+concommand.Add("race_helpmenu", function(ply, cmd, args) --Allows the help menu to be pulled up.
 	net.Start("helpMenu")
 	net.Send(ply)
-	
 end)
 	
-hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team )
+hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team ) --Every time a player says something. Add some new commands if you want!
 		 
 		if ( string.lower( text ) == "!help" ) then
 				net.Start("helpMenu")
@@ -348,8 +310,8 @@ hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team )
 			
 		if ( string.lower( text ) == "!spawn" ) then
 				cspawn = carSpawns[1]:GetPos()
-				newAngle = Angle(0, math.random(360), 0);
-				SpawnCar1(ply,Color(255,255,255,255),tonumber(ply:GetNWInt("pCar")),cspawn, newAngle, 0)
+				chAngles = (checkpoints[2]:OBBCenter() - checkpoints[1]:OBBCenter()):Angle()
+				SpawnCar1(ply,Color(255,255,255,255),tonumber(ply:GetNWInt("pCar")),cspawn, chAngles, 0)
 		return ""
 		end
 		
@@ -385,7 +347,7 @@ hook.Add( "PlayerSay", "PlayerSayExample", function( ply, text, team )
 		end
 end )
 	
-	function GM:Initialize()
+function GM:Initialize() --Called on startup
 	
 	timer.Create("waitingTime", 1, 1, function()
 		SetGlobalInt("AllCheckpoints", #checkpoints)
@@ -395,7 +357,7 @@ end )
 	
 	end
 
-	function GM:PlayerInitialSpawn( ply )
+function GM:PlayerInitialSpawn( ply ) --Performed when the player initally joins the server.
 		net.Start("totalLapNum")
 		net.WriteInt(#checkpoints, 32)
 		net.Broadcast()
@@ -403,88 +365,70 @@ end )
 		StatLoad( ply )
 		
 	end
+
+function GM:PlayerSpawn( ply )	--Called everytime the player spawns.
+	spawnServer( ply )
+end
 	
-	function GM:PlayerDisconnected( ply )
+function GM:PlayerDisconnected( ply ) --Called on player disconnect.
 	
 		StatSave( ply )
 	
 	end
-	
-	function GM:ShutDown()
-	
-		for k, v in pairs(player.GetAll()) do
-		
-		StatSave( v )
-		
+
+function GM:PlayerDeath( victim, inflictor, attacker ) --Called on player death.
+
+	victim:SendLua("RunConsoleCommand('stopsound')")
+
+
+	local leftover = 6 --How long a player has before being forced to spawn. Seconds = amount of seconds you want + 1.
+
+	timer.Create(victim:Nick(), 1, leftover, function()
+
+		leftover = leftover - 1
+
+		if victim:Alive() then
+			timer.Remove(victim:Nick())
 		end
-	
-	end
-	
-function GM:PlayerSpawn( ply )	
-		print(tostring(ply:GetNWString("boostColor1")))
-		print(tostring(ply:GetNWString("boostColor2")))
-		
-		ply:SetNWInt("boostnum", 2)
-		spawnServer( ply )
-		ply:AllowFlashlight( false )
-		ply:SetNoCollideWithTeammates(true)
-		ply:GodEnable()
-		ply:Give("weapon_stunstick")
-		ply:Give("weapon_bugbait")
 
-end
-
-function GM:PlayerDeath( victim, inflictor, attacker )
-
-victim:SendLua("RunConsoleCommand('stopsound')")
-
-
-local leftover = 6
-
-timer.Create(victim:Nick(), 1, leftover, function()
-
-leftover = leftover - 1
-
-if victim:Alive() then
-
-timer.Remove(victim:Nick())
-
-end
-
-if leftover == 0 then
-
-victim:Spawn()
-timer.Remove(victim:Nick())
-end
+		if leftover == 0 then --Forcibly spawn the user.
+			victim:Spawn()
+			timer.Remove(victim:Nick())
+		end
 end)
 
 end
 	
-function GM:PlayerDeathSound()
+function GM:PlayerDeathSound() --Should the player death BEEP BEEP BEEEEEEEP sound be played?
 	return true
 end
 
-function spawnServer(ply)
+function spawnServer(ply) --Called along with GM:PlayerSpawn()
 
 	if ply:Alive() then
 		ply:SetGamemodeTeam(1)
 		
 	end
+	ply:AllowFlashlight( false )
+	ply:SetNoCollideWithTeammates(true)
+	ply:GodEnable()
+	ply:Give("weapon_stunstick")
+	ply:Give("weapon_bugbait")
+	
 end
 
-function GM:ShowHelp( ply )
+function GM:ShowHelp( ply ) --F1
 	if ply.killPossible == true then
 	ply:Kill()
 	end
 end
 
-function GM:ShowTeam( ply )
+function GM:ShowTeam( ply ) --F2
 net.Start("openCustomMenu")
 net.Send(ply)
 end
 
-function GM:ShowSpare1( ply )
-	
+function GM:ShowSpare1( ply ) --F3
 	local car = ply:GetVehicle()
 	if IsValid(car) then
 	local vehicleclass = car:GetClass()
@@ -499,7 +443,7 @@ function GM:ShowSpare1( ply )
 	end
 	end
 	
-function GM:ShowSpare2( ply )
+function GM:ShowSpare2( ply ) --F4
 
 	if (#checkpoints != 0) then
 	
@@ -582,13 +526,13 @@ else
 end
 end
 
-function GM:CanExitVehicle( vehicle, play )
+function GM:CanExitVehicle( vehicle, play ) -- You can only exit the vehicle if it is an airboat. You server owners can change this to whatever you want!
 
 local car = play:GetVehicle()
 	
 if IsValid(car) then
 	
-local vehicleclass = car:GetClass()
+		local vehicleclass = car:GetClass()
 	
 		if vehicleclass != "prop_vehicle_airboat" then
 			return false
@@ -598,7 +542,7 @@ local vehicleclass = car:GetClass()
 end	
 end
   
-function GM:Think()
+function GM:Think() --Called every tick of the server.
 	
 		handBrake()
 			for k, v in pairs(player.GetAll()) do
@@ -619,7 +563,7 @@ function GM:Think()
 					v.alreadyWinner = 0
 					v.alreadyCrossed = 0
 					v:SetNWInt("TotalCP", 0)
-					
+					v:SetNWInt("boostnum", 2)
 				end
 			end
 	
@@ -644,7 +588,8 @@ function GM:Think()
 			if raceWinner == nil and v.alreadyWinner == 0 then
 			raceWinner = v:Nick()
 			v:SetNWInt("money", v:GetNWInt("money") + 400)
-			v.alreadyWinner = 1 
+			v.alreadyWinner = 1
+			v:SetNWInt("wins", v:GetNWInt("wins") + 1)
 			elseif raceSecond == nil and raceWinner != nil and v.alreadyWinner == 0 then
 			raceSecond = v:Nick()
 			v:SetNWInt("money", v:GetNWInt("money") + 200)
@@ -674,8 +619,17 @@ function GM:Think()
 	
 end
 
+function GM:ShutDown() --Called on system / server shutdown.
+	
+	for k, v in pairs(player.GetAll()) do
+		
+	StatSave( v )
+		
+	end
+	
+	end
 
-function handBrake()
+function handBrake() --Allows cars to stay stopped until timer goes off.
     for k,v in pairs(ents.FindByClass("prop_vehicle_jeep_old")) do
         if netbool then
 		v:Fire("HandbrakeOn")

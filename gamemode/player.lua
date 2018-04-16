@@ -1,13 +1,14 @@
---SPIES V.S. MERCS PLAYER.LUA)
+include("sv_tables.lua")
 
-local ply = FindMetaTable("Player")
+playermodels = {}
 
-local teams = {}
+playermodels[0] = {model = "models/player/phoenix.mdl"}
+playermodels[1] = {model = "models/player/police.mdl"}
+playermodels[2] = {model = "models/player/gasmask.mdl"}
+playermodels[3] = {model = "models/player/leet.mdl"}
+playermodels[4] = {model = "models/player/dod_german.mdl"}
 
-teams[0] = {name = "Blue", color = (Vector (.1, .1, .1 ) )}
-teams[1] = {name = "Red", color = (Vector (1.0, .4, .2 ) )}
-
-local colors = {}
+colors = {}
 
 colors[0] = {color = (Vector (.4, .9, .2 ) )}
 colors[1] = {color = (Vector (1.0, .4, .2 ))}
@@ -16,14 +17,12 @@ colors[3] = {color = (Vector (.1, .3, .8 ) )}
 colors[4] = {color = (Vector (.3, .9, .6 ))}
 colors[5] = {color = (Vector (.9, .5, .2))}
 
-local playermodels = {}
+local ply = FindMetaTable("Player")
 
-playermodels[0] = {model = "models/player/phoenix.mdl"}
-playermodels[1] = {model = "models/player/police.mdl"}
-playermodels[2] = {model = "models/player/gasmask.mdl"}
-playermodels[3] = {model = "models/player/leet.mdl"}
-playermodels[4] = {model = "models/player/dod_german.mdl"}
+local teams = {}
 
+teams[0] = {name = "Blue", color = (Vector (.1, .1, .1 ) )}
+teams[1] = {name = "Red", color = (Vector (1.0, .4, .2 ) )}
 
 function ply:SetGamemodeTeam( n )
 	if not teams[n] then return end
