@@ -1,0 +1,5 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "race/mats/race"
+	$translucent 1
+}

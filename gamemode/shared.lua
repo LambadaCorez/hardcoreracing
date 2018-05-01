@@ -9,5 +9,4 @@ team.SetUp( 1, "Red", Color(219,102,0) )
 
 function GM:Initialize()
 	self.BaseClass.Initialize( self )
-	end
-	
+end

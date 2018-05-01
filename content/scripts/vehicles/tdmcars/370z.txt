@@ -1,14 +1,12 @@
-// gtr, created by TDM in 04/23/14 13:12:55, using Vehicle Controller (VCMod).
-
 "Vehicle"
 {
 	"WheelsPerAxle"		"2"
 	"Body"
 	{
 		"CounterTorqueFactor"	"0.9"
-		"MassCenterOverride"	"0 -7 1"
+		"MassCenterOverride"	"0 -30 15"
 		"MassOverride"			"1736"
-		"AddGravity"			"0.6"
+		"AddGravity"			"1"
 		"MaxAngularVelocity"	"720"
 	}
 	"Engine"
@@ -32,11 +30,11 @@
 	}
 	"Steering"
 	{
-		"DegreesSlow"						"40"
+		"DegreesSlow"						"43"
 		"DegreesFast"						"8"
 		"DegreesBoost"						"11"
 		"FastDampen"						"60"
-		"SteeringExponent"					"0"
+		"SteeringExponent"					"1.4"
 		"SlowCarSpeed"						"4"
 		"FastCarSpeed"						"45"
 		"SlowSteeringRate"					"2.7"
@@ -60,11 +58,11 @@
 		"Wheel"
 		{
 			"Radius"						"16.5"
-			"Mass"							"200"
+			"Mass"							"100"
 			"Inertia"						"1.1"
 			"Damping"						"0"
 			"RotDamping"					"0"
-			"Material"						"phx_rubbertire2"
+			"Material"						"jeeptire"
 			"SkidMaterial"					"slidingrubbertire"
 			"BrakeMaterial"					"brakingrubbertire"
 		}
@@ -84,11 +82,11 @@
 		"Wheel"
 		{
 			"Radius"						"16.5"
-			"Mass"							"200"
+			"Mass"							"100"
 			"Inertia"						"1.1"
 			"Damping"						"0.36"
 			"RotDamping"					"0.9"
-			"Material"						"phx_rubbertire2"
+			"Material"						"jeeptire"
 			"SkidMaterial"					"slidingrubbertire"
 			"BrakeMaterial"					"brakingrubbertire"
 		}

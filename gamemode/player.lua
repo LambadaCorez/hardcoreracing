@@ -1,5 +1,3 @@
-include("sv_tables.lua")
-
 playermodels = {}
 
 playermodels[0] = {model = "models/player/phoenix.mdl"}
@@ -32,23 +30,23 @@ function ply:SetGamemodeTeam( n )
 	self:AllowFlashlight( false )
 	self:SetModel(playermodels[math.random(0,4)].model)
 	self:SetPlayerColor(colors[math.random(0,5)].color)
-		return true
-	end
-	
+	return true
+end
+
 function ply:GiveGamemodeWeapons()
-		
-		local n = self:Team()
-		
-			self:StripWeapons()
+	
+	local n = self:Team()
+	
+	self:StripWeapons()
 	
 	for k, wep in pairs(teams[n].weapons) do
-			
-			self:Give(wep)
+		
+		self:Give(wep)
 	end
 	if self:Alive() == true then
-	for k, amm in pairs(teams[n].ammo) do
-	
-		self:Give(amm)
+		for k, amm in pairs(teams[n].ammo) do
+			
+			self:Give(amm)
 		end
-end
+	end
 end

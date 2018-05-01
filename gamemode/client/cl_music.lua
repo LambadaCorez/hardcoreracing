@@ -3,6 +3,8 @@ var = 0
 
 local music = {}
 
+local ply = LocalPlayer()
+
 music[0] = {links="https://lambadacorez.github.io/music/track1.mp3"}
 music[1] = {links="https://lambadacorez.github.io/music/track2.mp3"}
 music[2] = {links="https://lambadacorez.github.io/music/track3.mp3"}
@@ -16,49 +18,17 @@ music[9] = {links="https://lambadacorez.github.io/music/track10.mp3"}
 music[10] = {links="https://lambadacorez.github.io/music/track11.mp3"}
 
 function musicLogic()
-local ply = LocalPlayer()
-
-  if !raceactive or (ply:Alive() == false) then
-
-    var = 0
-
-    backupPlan()
-
-  end
-
-  if netbool then
-
-    backupPlan()
-
-  end
-
-
-end
-
-function backupPlan()
-local ply = LocalPlayer()
-
-  local car = ply:GetVehicle()
-
-
-  if IsValid(car) then
-
-    local vehicleclass = car:GetClass()
-
-
-    if raceactive and var == 0 and (vehicleclass != "prop_vehicle_airboat") then
       var = 1
       sound.PlayURL( music[math.random(0,10)].links, "", function( station )
 
 
-      if ( IsValid( station ) ) and vehicleclass !="prop_vehicle_airboat" then
-        station:Play()
-      else
-        station:Stop()
-      end
+        if ( IsValid( station ) ) and vehicleclass !="prop_vehicle_airboat" then
+          station:Play()
+        else
+          station:Stop()
+        end
 
-      end)
-    end
-  end
+        end)
 end
+
 
