@@ -328,7 +328,7 @@ sc = 1
 	
 	net.Receive( "color", function( len, ply ) --Called when the player orders a new color for their car.
 		if tonumber(ply:GetNWInt("money")) >= 100 then
-			ply:ChatPrint("Car color switched! Cost: $100")
+			ply:ChatPrint("OUCH OUCH OUCH")
 			ply.colorR = net.ReadInt(32)
 			ply.colorG = net.ReadInt(31)
 			ply.colorB = net.ReadInt(30)
